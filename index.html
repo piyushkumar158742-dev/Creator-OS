@@ -5,18 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Creator OS</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="auth.css">
 </head>
 <body>
   <div class="app">
     <aside class="side">
       <div class="brand"><span class="mark">C</span><b>Creator OS</b></div>
       <nav id="nav" aria-label="Main"></nav>
-      <div class="me">
-        <span class="avatar">AK</span>
-        <div><b>Alex Kim</b><small>Tech &amp; Tools</small></div>
-      </div>
     </aside>
     <main>
+      <div id="acct" class="acct"></div>
       <header class="top">
         <h1 id="title"></h1>
         <div id="actions" class="actions"></div>
@@ -25,6 +23,14 @@
     </main>
   </div>
   <div id="modal" class="modal" hidden></div>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="auth.js"></script>
+  <script src="youtube.js"></script>
+  <script src="db.js"></script>
   <script src="script.js"></script>
+  <script src="app-session.js"></script>
 </body>
 </html>
