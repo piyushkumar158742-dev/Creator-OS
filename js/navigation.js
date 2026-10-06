@@ -7,7 +7,7 @@ const navItems=[
     {id:'settings',icon:'fa-gear',label:'Settings'}
 ];
 
-function renderNav(){
+window.renderNav = function(){
     const navMenu=document.getElementById('nav-menu');
     if(!navMenu)return;
     navMenu.innerHTML=navItems.map(item=>`
@@ -17,7 +17,7 @@ function renderNav(){
         </button>`).join('');
 }
 
-function navigate(viewId,animate=true){
+window.navigate = function(viewId,animate=true){
     const valid=navItems.some(i=>i.id===viewId);
     if(!valid)viewId='dashboard';
     state.currentView=viewId;
