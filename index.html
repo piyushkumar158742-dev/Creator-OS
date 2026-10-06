@@ -682,73 +682,81 @@
             const videos = window.AppState.videos;
 
             let html = `
-                <div class="flex flex-col h-full max-w-full">
+                <div class="max-w-7xl mx-auto h-full flex flex-col">
                     <div class="flex items-center justify-between mb-8 flex-shrink-0">
-                        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Video Pipeline</h1>
+                        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Videos</h1>
                         <button onclick="openVideoModal()" class="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2">
                             <i class="fa-solid fa-plus"></i> New Video
                         </button>
                     </div>
 
-                    <div class="flex-1 overflow-x-auto pb-6 custom-scrollbar">
-                        <div class="flex gap-6 h-full min-w-max items-start">
-                            ${stages.map(stage => {
-                                const stageVids = videos.filter(v => (v.status || 'Idea') === stage);
-                                return `
-                                <div class="w-80 bg-gray-100/50 rounded-3xl p-4 flex flex-col max-h-full border border-gray-200/50" data-stage="${stage}" ondragover="allowDrop(event)" ondrop="dropVideo(event)">
-                                    <div class="flex items-center justify-between mb-4 px-2">
-                                        <h3 class="font-bold text-gray-800 text-sm uppercase tracking-wider flex items-center gap-2">
-                                            ${stage} <span class="bg-white shadow-sm text-gray-600 px-2.5 py-0.5 rounded-full text-xs">${stageVids.length}</span>
-                                        </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 flex-1 overflow-y-auto pb-8 content-start custom-scrollbar">
+                        ${videos.length === 0 ? `<div class="col-span-full text-center py-16 text-gray-400 font-medium">No videos yet. Start creating!</div>` : videos.map(v => {
+                            const stageIndex = stages.indexOf(v.status || 'Idea');
+                            const progress = Math.max(2, (stageIndex / (stages.length - 1)) * 100);
+                            return `
+                            <div class="card-premium rounded-[2rem] p-6 cursor-pointer relative group flex flex-col aspect-square justify-between bg-white hover:bg-brand-50/10" onclick="openVideoModal('${v.id}')">
+                                <div>
+                                    <div class="flex justify-between items-start mb-4">
+                                        <span class="bg-gray-50 text-gray-700 px-3 py-1 rounded-full text-xs font-bold border border-gray-200/60 shadow-sm">${v.status || 'Idea'}</span>
+                                        ${v.deadline ? `<span class="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-1 rounded-full"><i class="fa-regular fa-clock"></i> ${new Date(v.deadline).toLocaleDateString(undefined, {month: 'short', day: 'numeric'})}</span>` : ''}
                                     </div>
-                                    <div class="flex-1 overflow-y-auto space-y-3 kanban-col rounded-2xl pb-2 custom-scrollbar pr-1" id="col-${stage}">
-                                        ${stageVids.map(v => `
-                                            <div draggable="true" ondragstart="dragVideo(event, '${v.id}')" onclick="openVideoModal('${v.id}')" class="card-premium p-4 rounded-2xl cursor-pointer relative group">
-                                                <h4 class="font-bold text-gray-900 text-sm mb-2 pr-4 leading-snug">${v.title}</h4>
-                                                ${v.deadline ? `<div class="text-xs font-semibold text-red-500 mt-2 flex items-center gap-1.5"><i class="fa-regular fa-clock"></i> ${new Date(v.deadline).toLocaleDateString()}</div>` : ''}
-                                                ${v.sponsor ? `<div class="text-xs font-semibold text-brand-600 mt-1.5 flex items-center gap-1.5"><i class="fa-solid fa-handshake"></i> ${v.sponsor}</div>` : ''}
-                                                <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-gray-300">
-                                                    <i class="fa-solid fa-grip-vertical"></i>
-                                                </div>
-                                            </div>
-                                        `).join('')}
+                                    <h3 class="font-extrabold text-xl text-gray-900 leading-tight line-clamp-3 mb-2">${v.title || 'Untitled Video'}</h3>
+                                    ${v.sponsor ? `<p class="text-xs font-semibold text-brand-600 truncate"><i class="fa-solid fa-handshake"></i> ${v.sponsor}</p>` : ''}
+                                </div>
+                                
+                                <div class="mt-4 pt-4 border-t border-gray-100/60">
+                                    <div class="w-full bg-gray-100 rounded-full h-1.5 mb-2 overflow-hidden shadow-inner">
+                                        <div class="bg-gradient-to-r from-brand-400 to-brand-600 h-1.5 rounded-full transition-all duration-500" style="width: ${progress}%"></div>
+                                    </div>
+                                    <div class="flex justify-between text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                                        <span>Start</span>
+                                        <span class="${stageIndex === stages.length - 1 ? 'text-brand-600' : ''}">Published</span>
                                     </div>
                                 </div>
-                                `;
-                            }).join('')}
-                        </div>
+                            </div>
+                            `;
+                        }).join('')}
                     </div>
                 </div>
             `;
             DOM.viewContainer.innerHTML = html;
         }
 
-        // Kanban Drag & Drop globals
-        window.dragVideo = (ev, id) => {
-            ev.dataTransfer.setData("videoId", id);
-        };
-        window.allowDrop = (ev) => {
-            ev.preventDefault();
-        };
-        window.dropVideo = async (ev) => {
-            ev.preventDefault();
-            const id = ev.dataTransfer.getData("videoId");
-            // Find closest stage container
-            const stageContainer = ev.target.closest('[data-stage]');
-            if(stageContainer && id) {
-                const newStage = stageContainer.getAttribute('data-stage');
-                const video = window.AppState.videos.find(v => v.id === id);
-                if(video && video.status !== newStage) {
-                    video.status = newStage;
-                    renderVideos(); // Optimistic update
-                    await saveDoc('videos', id, { status: newStage });
-                }
+        window.updateModalStage = (newStage) => {
+            document.getElementById('vid-status').value = newStage;
+            const stages = window.AppState.pipelineStages;
+            const currentIndex = stages.indexOf(newStage);
+            
+            // Update Progress Line
+            const progressLine = document.getElementById('step-progress-line');
+            if (progressLine) {
+                progressLine.style.width = `${(currentIndex / (stages.length - 1)) * 100}%`;
             }
+            
+            // Update Nodes
+            stages.forEach((s, idx) => {
+                const safeId = s.replace(/\s+/g, '-');
+                const icon = document.getElementById(`step-icon-${safeId}`);
+                const text = document.getElementById(`step-text-${safeId}`);
+                
+                if (icon && text) {
+                    if (idx <= currentIndex) {
+                        icon.className = 'w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 z-10 relative bg-brand-600 text-white shadow-lg shadow-brand-500/40 ring-4 ring-brand-50';
+                        text.className = 'absolute top-12 text-[10px] font-bold uppercase tracking-wider whitespace-nowrap text-brand-700 transition-colors duration-300';
+                    } else {
+                        icon.className = 'w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 z-10 relative bg-white text-gray-300 border-2 border-gray-200 group-hover:border-brand-300';
+                        text.className = 'absolute top-12 text-[10px] font-bold uppercase tracking-wider whitespace-nowrap text-gray-400 transition-colors duration-300';
+                    }
+                }
+            });
         };
 
         window.openVideoModal = (id = null) => {
             const isNew = !id;
             const video = isNew ? { title: '', status: 'Idea', script: '', deadline: '', sponsor: '', notes: '' } : window.AppState.videos.find(v => v.id === id);
+            const stages = window.AppState.pipelineStages;
+            const currentStageIdx = stages.indexOf(video.status || 'Idea');
             
             const html = `
                 <div class="flex flex-col h-full bg-white rounded-2xl relative">
@@ -757,31 +765,47 @@
                         <button class="close-modal text-gray-400 hover:text-gray-600"><i class="fa-solid fa-times text-xl"></i></button>
                     </div>
                     
+                    <div class="px-8 py-10 border-b border-gray-50 bg-gray-50/50">
+                        <input type="hidden" id="vid-status" value="${video.status || 'Idea'}">
+                        <div class="flex items-center justify-between relative max-w-2xl mx-auto">
+                            <!-- Background Line -->
+                            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1.5 bg-gray-200 z-0 rounded-full"></div>
+                            <!-- Active Progress Line -->
+                            <div id="step-progress-line" class="absolute left-0 top-1/2 -translate-y-1/2 h-1.5 bg-brand-500 z-0 rounded-full transition-all duration-500" style="width: ${(currentStageIdx / (stages.length - 1)) * 100}%"></div>
+                            
+                            ${stages.map((s, idx) => {
+                                const isActive = idx <= currentStageIdx;
+                                const safeId = s.replace(/\s+/g, '-');
+                                return `
+                                <div class="relative z-10 flex flex-col items-center cursor-pointer group" onclick="updateModalStage('${s}')">
+                                    <div id="step-icon-${safeId}" class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 z-10 relative ${isActive ? 'bg-brand-600 text-white shadow-lg shadow-brand-500/40 ring-4 ring-brand-50' : 'bg-white text-gray-300 border-2 border-gray-200 group-hover:border-brand-300'}">
+                                        ${idx + 1}
+                                    </div>
+                                    <span id="step-text-${safeId}" class="absolute top-12 text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-colors duration-300 ${isActive ? 'text-brand-700' : 'text-gray-400'}">${s}</span>
+                                </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+
                     <div class="p-6 overflow-y-auto space-y-5">
                         <div>
                             <div class="flex justify-between items-center mb-1">
                                 <label class="block text-sm font-medium text-gray-700">Title</label>
                                 <button type="button" onclick="generateAITitle()" class="text-xs text-brand-600 hover:text-brand-800 flex items-center gap-1 font-medium bg-brand-50 px-2 py-0.5 rounded-md transition-colors shadow-sm"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Enhance Title</button>
                             </div>
-                            <input type="text" id="vid-title" value="${video.title || ''}" placeholder="Enter a rough idea..." class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none text-gray-900 placeholder-gray-400">
+                            <input type="text" id="vid-title" value="${video.title || ''}" placeholder="Enter a rough idea..." class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none text-gray-900 placeholder-gray-400 text-lg font-semibold">
                         </div>
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                                <select id="vid-status" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brand-500 outline-none bg-white text-gray-900">
-                                    ${window.AppState.pipelineStages.map(s => `<option value="${s}" ${video.status === s ? 'selected' : ''}>${s}</option>`).join('')}
-                                </select>
-                            </div>
-                            <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Deadline</label>
                                 <input type="date" id="vid-deadline" value="${video.deadline || ''}" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-brand-500 outline-none">
                             </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Connected Sponsor / Brand</label>
-                            <input type="text" id="vid-sponsor" placeholder="e.g. Squarespace" value="${video.sponsor || ''}" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-brand-500">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Connected Brand</label>
+                                <input type="text" id="vid-sponsor" placeholder="e.g. Squarespace" value="${video.sponsor || ''}" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
                         </div>
 
                         <div>
@@ -789,12 +813,12 @@
                                 <label class="block text-sm font-medium text-gray-700">Script / Outline</label>
                                 <button type="button" onclick="generateAIOutline()" class="text-xs text-brand-600 hover:text-brand-800 flex items-center gap-1 font-medium bg-brand-50 px-2 py-0.5 rounded-md transition-colors shadow-sm"><i class="fa-solid fa-pen-nib"></i> AI Generate Outline</button>
                             </div>
-                            <textarea id="vid-script" rows="5" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-brand-500">${video.script || ''}</textarea>
+                            <textarea id="vid-script" rows="4" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-brand-500 custom-scrollbar">${video.script || ''}</textarea>
                         </div>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
-                            <textarea id="vid-notes" rows="2" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-brand-500">${video.notes || ''}</textarea>
+                            <textarea id="vid-notes" rows="2" class="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-brand-500 custom-scrollbar">${video.notes || ''}</textarea>
                         </div>
                     </div>
                     
