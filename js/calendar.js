@@ -1,4 +1,4 @@
-function renderCalendar() {
+window.renderCalendar = function() {
     const year = 2026;
     const month = 9; // October, zero-based.
     const monthName = new Date(year, month, 1).toLocaleString('en-US', { month: 'long' });
