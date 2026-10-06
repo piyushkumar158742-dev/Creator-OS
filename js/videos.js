@@ -1,4 +1,4 @@
-function renderVideos(){
+window.renderVideos = function(){
     return `
         <div class="video-pipeline-container animate-fade-in">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
