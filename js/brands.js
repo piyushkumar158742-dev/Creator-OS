@@ -1,4 +1,4 @@
-function renderBrands(){
+window.renderBrands = function(){
     return `
         <div class="brands-grid animate-fade-in">
             ${state.brands.map(brand=>`
