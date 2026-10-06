@@ -1,4 +1,4 @@
-function renderSettings(){
+window.renderSettings = function(){
     return `
         <div class="settings-container animate-fade-in">
             <h3 class="settings-title">Workspace Settings</h3>
