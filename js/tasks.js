@@ -1,4 +1,4 @@
-function renderTasks(){
+window.renderTasks = function(){
     const groups=[
         {key:'open',title:'To-Do',items:state.tasks.filter(t=>!t.completed)},
         {key:'done',title:'Done',items:state.tasks.filter(t=>t.completed)}
