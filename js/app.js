@@ -89,20 +89,38 @@ window.closeModal = function(){
 }
 
 window.openNewVideoModal = function(){
+    const gradients=PIPELINE_GRADIENTS||['linear-gradient(135deg,#4f46e5,#7c3aed)'];
+    const emojis=PIPELINE_EMOJIS||['🎬'];
+    const randomGradient=gradients[Math.floor(Math.random()*gradients.length)];
+    const randomEmoji=emojis[Math.floor(Math.random()*emojis.length)];
     openCustomModal('Create New Video',`
         <form onsubmit="createVideo(event)" class="space-y-4">
             <div><label class="form-label">Video title</label><input name="title" required maxlength="120" class="form-input" placeholder="Enter your video title"></div>
-            <div><label class="form-label">Pipeline stage</label><select name="status" class="form-input">${state.pipelineSteps.map(s=>`<option>${escapeHTML(s)}</option>`).join('')}</select></div>
+            <div class="thumbnail-picker">
+                <div id="new-video-thumb-preview" class="thumbnail-preview" style="background:${randomGradient}"><span class="pipeline-thumb-text">${randomEmoji}</span></div>
+                <label class="form-label">Thumbnail</label>
+                <input name="thumbnail" id="new-video-image" type="file" accept="image/*" class="form-input" onchange="previewVideoImage(event,'new-video-thumb-preview')">
+                <p class="text-xs text-slate-400 mt-1">Upload an image or use the generated thumbnail.</p>
+            </div>
             <div><label class="form-label">Idea / notes</label><textarea name="notes" class="form-input min-h-24" placeholder="Optional"></textarea></div>
-            <div class="flex justify-end gap-2 pt-2"><button type="button" onclick="closeModal()" class="px-4 py-2 text-sm font-semibold text-slate-600">Cancel</button><button class="px-4 py-2 rounded-lg bg-midnight-600 text-white text-sm font-semibold">Create Video</button></div>
+            <div class="flex justify-end gap-2 pt-2"><button type="button" onclick="closeModal()" class="px-4 py-2 text-sm font-semibold text-slate-600">Cancel</button><button type="submit" class="px-4 py-2 rounded-lg bg-midnight-600 text-white text-sm font-semibold">Create Video</button></div>
         </form>`);
 }
 
 window.createVideo=function(event){
     event.preventDefault();
     const data=new FormData(event.target);
-    state.videos.unshift({id:Date.now(),title:data.get('title').trim(),status:data.get('status'),views:'-',thumb:null,notes:data.get('notes')||''});
-    persistState(); closeModal(); navigate('videos',false);
+    const title=String(data.get('title')||'').trim();
+    const video={id:Date.now(),title,status:'Idea',views:'-',thumb:null,thumbGradient:document.getElementById('new-video-thumb-preview')?.style.background||'',thumbEmoji:document.querySelector('#new-video-thumb-preview .pipeline-thumb-text')?.textContent||'🎬',notes:String(data.get('notes')||'')};
+    const file=document.getElementById('new-video-image')?.files?.[0];
+    if(file){
+        const reader=new FileReader();
+        reader.onload=()=>{video.thumb=reader.result;video.thumbGradient=null;video.thumbEmoji=null;state.videos.unshift(video);persistState();closeModal();navigate('videos',false);};
+        reader.readAsDataURL(file);
+        return;
+    }
+    state.videos.unshift(video);
+    persistState();closeModal();navigate('videos',false);
 };
 
 window.toggleTask=function(id){
