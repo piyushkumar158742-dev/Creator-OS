@@ -1,29 +1,25 @@
-/* Tailwind Configuration via CDN */
-<script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                fontFamily: { sans: ['Inter', 'sans-serif'] },
-                colors: {
-                    midnight: {
-                        50: '#f0f3ff', 100: '#e0e7ff', 200: '#c7d2fe', 
-                        300: '#a5b4fc', 400: '#818cf8', 500: '#6366f1', 
-                        600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 
-                        900: '#312e81', 950: '#1e1b4b',
-                    }
-                }
-            }
-        }
-    }
-</script>
+/* Creator OS global styles */
+:root{color-scheme:light}
+html,body{margin:0;min-height:100%;background:#f8fafc;color:#0f172a}
+body{font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+button,input,textarea,select{font:inherit}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #6366f1;outline-offset:2px}
+::selection{background:#6366f1;color:#fff}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:#94a3b8}
 
-body {
-    background-color: #f8fafc;
-    color: #0f172a;
+.app-sidebar{width:16rem;flex:0 0 16rem}
+.mobile-menu-button,.mobile-only-icon{display:none}
+.mobile-overlay{position:fixed;inset:0;background:rgba(15,23,42,.38);backdrop-filter:blur(2px);z-index:35}
+.notification-dot{position:absolute;right:7px;top:7px;width:6px;height:6px;border-radius:50%;background:#6366f1}
+.hidden{display:none!important}
+
+@media(max-width:900px){
+  .app-sidebar{position:fixed;left:0;top:0;bottom:0;width:17rem;transform:translateX(-105%);transition:transform .25s ease;box-shadow:12px 0 30px rgba(15,23,42,.12)}
+  .app-sidebar.mobile-open{transform:translateX(0)}
+  .mobile-menu-button{display:flex;width:2.25rem;height:2.25rem;align-items:center;justify-content:center;border:1px solid #e2e8f0;border-radius:.7rem;background:#fff;color:#475569}
+  .mobile-only-icon{display:flex;width:2rem;height:2rem;align-items:center;justify-content:center;border:0;background:transparent;color:#64748b}
 }
-
-/* Hide scrollbar for clean look */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+@media(min-width:901px){.mobile-overlay{display:none!important}}
