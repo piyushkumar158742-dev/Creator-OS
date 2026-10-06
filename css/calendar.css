@@ -1,0 +1,13 @@
+.calendar-layout{max-width:80rem;margin:0 auto;display:grid;grid-template-columns:minmax(0,2fr) minmax(18rem,1fr);gap:1.5rem;height:100%}
+.calendar-panel,.agenda-panel{background:rgba(255,255,255,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid #e2e8f0;border-radius:1rem;overflow:hidden}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.5rem;padding:1rem}
+.calendar-cell{min-height:5.5rem;border:1px solid #f1f5f9;border-radius:.75rem;padding:.5rem;position:relative;transition:background-color .2s,border-color .2s;cursor:pointer}
+.calendar-cell:hover{background:#f8fafc;border-color:#c7d2fe}
+.calendar-cell.muted{opacity:.45}
+.calendar-cell.today{background:#eef2ff;border-color:#a5b4fc}
+.calendar-day-number{width:1.75rem;height:1.75rem;display:flex;align-items:center;justify-content:center;border-radius:9999px;font-size:.8rem;font-weight:700;color:#475569}
+.calendar-cell.today .calendar-day-number{background:#4f46e5;color:#fff}
+.calendar-event-dot{height:.35rem;border-radius:9999px;background:linear-gradient(90deg,#6366f1,#8b5cf6);margin-top:.75rem}
+.agenda-item{padding:1rem;border:1px solid #e2e8f0;border-left:4px solid #6366f1;border-radius:.75rem;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+@media(max-width:900px){.calendar-layout{grid-template-columns:1fr;height:auto}.agenda-panel{min-height:18rem}}
+@media(max-width:640px){.calendar-grid{gap:.25rem;padding:.5rem}.calendar-cell{min-height:4.25rem;padding:.35rem}.calendar-cell .text-xs{font-size:.65rem}}
