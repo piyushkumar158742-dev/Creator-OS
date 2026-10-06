@@ -1,4 +1,4 @@
-function renderDashboard(){
+window.renderDashboard = function(){
     const pending=state.tasks.filter(t=>!t.completed).slice(0,4);
     return `
         <div class="dashboard-layout animate-fade-in">
