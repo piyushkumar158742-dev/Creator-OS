@@ -46,28 +46,28 @@ function loadState(){
     }
 }
 
-function persistState(){
+window.persistState = function(){
     try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(error){console.warn('Could not save workspace state:',error);}
 }
 
-function initApp(){
+window.initApp = function(){
     try{
         renderNav();
         navigate(state.currentView||'dashboard',false);
     }catch(error){showErrorBoundary(error);}
 }
 
-function showErrorBoundary(error){
+window.showErrorBoundary = function(error){
     console.error('Vyro Critical Error:',error);
     document.getElementById('error-boundary').classList.remove('hidden');
     document.getElementById('error-message').textContent=error?.message||'A critical error occurred.';
 }
 
-function escapeHTML(value=''){
+window.escapeHTML = function(value=''){
     return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
 }
 
-function openCustomModal(title,contentHTML){
+window.openCustomModal = function(title,contentHTML){
     const modal=document.getElementById('global-modal');
     const content=document.getElementById('modal-content');
     content.innerHTML=`
@@ -80,7 +80,7 @@ function openCustomModal(title,contentHTML){
     requestAnimationFrame(()=>content.classList.add('scale-100','opacity-100'));
 }
 
-function closeModal(){
+window.closeModal = function(){
     const modal=document.getElementById('global-modal');
     const content=document.getElementById('modal-content');
     content.classList.remove('scale-100','opacity-100');
@@ -88,7 +88,7 @@ function closeModal(){
     setTimeout(()=>modal.classList.add('hidden'),180);
 }
 
-function openNewVideoModal(){
+window.openNewVideoModal = function(){
     openCustomModal('Create New Video',`
         <form onsubmit="createVideo(event)" class="space-y-4">
             <div><label class="form-label">Video title</label><input name="title" required maxlength="120" class="form-input" placeholder="Enter your video title"></div>
@@ -132,10 +132,13 @@ window.showNotifications=function(){
 window.openMobileNav=function(){document.getElementById('sidebar')?.classList.add('mobile-open');document.getElementById('mobile-overlay')?.classList.remove('hidden');};
 window.closeMobileNav=function(){document.getElementById('sidebar')?.classList.remove('mobile-open');document.getElementById('mobile-overlay')?.classList.add('hidden');};
 
-function renderDashboardIntoContainer(){
+window.renderDashboardIntoContainer = function(){
     const container=document.getElementById('view-container');
     if(container && state.currentView==='dashboard') container.innerHTML=renderDashboard();
 }
 
 window.addEventListener('resize',()=>{if(window.innerWidth>900)closeMobileNav();});
 document.addEventListener('DOMContentLoaded',initApp);
+
+// Keep shared application functions available to HTML onclick handlers.
+window.__VYRO_READY__ = true;
