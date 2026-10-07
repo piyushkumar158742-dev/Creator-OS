@@ -23,3 +23,15 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
   .mobile-only-icon{display:flex;width:2rem;height:2rem;align-items:center;justify-content:center;border:0;background:transparent;color:#64748b}
 }
 @media(min-width:901px){.mobile-overlay{display:none!important}}
+
+/* Vyro app-shell redesign */
+body{background:#f1f1ef;color:#202124;transition:background .3s ease,color .3s ease}
+.app-shell{min-height:100vh;background:var(--app-bg,#f1f1ef)}
+.topbar{height:64px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 28px;border-bottom:1px solid var(--app-line,#dededb);background:color-mix(in srgb,var(--app-bg,#f1f1ef) 92%,transparent);backdrop-filter:blur(18px);position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:9px;border:0;background:transparent;font-weight:750;font-size:16px;color:var(--app-text,#202124);cursor:pointer}.brand-mark{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:#202124;color:#f1f1ef;font-size:13px}
+.topbar-center{font-size:12px;font-weight:650;color:var(--app-muted,#85878a)}
+.topbar-actions{justify-self:end;display:flex;align-items:center;gap:7px}.top-icon{width:34px;height:34px;border:1px solid var(--app-line,#dededb);background:transparent;color:var(--app-muted,#85878a);border-radius:50%;cursor:pointer;position:relative}.top-icon:hover{color:var(--app-text,#202124);transform:translateY(-1px)}.top-new{height:34px;border:0;border-radius:8px;background:#202124;color:#fff;padding:0 12px;font-size:11px;font-weight:700;cursor:pointer}.app-content{min-height:calc(100vh - 64px);padding:0 28px 36px}.view-changing{opacity:.35;transform:translateY(4px);transition:opacity .2s ease,transform .2s ease}
+body.theme-dark{--app-bg:#202122;--app-text:#f1f1ef;--app-muted:#96989b;--app-line:#3b3c3e;background:#202122;color:#f1f1ef}
+body.theme-dark .topbar{background:#202122;border-color:#3b3c3e}body.theme-dark .brand-mark,body.theme-dark .top-new{background:#f1f1ef;color:#202122}body.theme-dark .top-icon{border-color:#3b3c3e;color:#96989b}
+body.theme-dark .app-content{color:#f1f1ef}
+@media(max-width:700px){.topbar{grid-template-columns:auto 1fr auto;padding:0 14px}.topbar-center{justify-self:center}.top-new{width:34px;padding:0}.top-new span{display:none}.app-content{padding:0 14px 28px}.brand>span:last-child{display:none}}
