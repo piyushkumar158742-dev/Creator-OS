@@ -142,9 +142,6 @@ window.showNotifications=function(){
         </div>`);
 };
 
-window.openMobileNav=function(){document.getElementById('sidebar')?.classList.add('mobile-open');document.getElementById('mobile-overlay')?.classList.remove('hidden');};
-window.closeMobileNav=function(){document.getElementById('sidebar')?.classList.remove('mobile-open');document.getElementById('mobile-overlay')?.classList.add('hidden');};
-
 window.renderDashboardIntoContainer = function(){
     const container=document.getElementById('view-container');
     if(container && state.currentView==='dashboard') container.innerHTML=renderDashboard();
@@ -156,8 +153,7 @@ document.addEventListener('DOMContentLoaded',initApp);
 // Keep shared application functions available to HTML onclick handlers.
 window.__VYRO_READY__ = true;
 
-window.toggleGlobalTheme=function(){
- document.body.classList.toggle('theme-dark');
- localStorage.setItem('vyro-theme',document.body.classList.contains('theme-dark')?'dark':'light');
-};
+
+
+window.toggleGlobalTheme=function(){document.body.classList.toggle('theme-dark');localStorage.setItem('vyro-theme',document.body.classList.contains('theme-dark')?'dark':'light');};
 (function(){if(localStorage.getItem('vyro-theme')==='dark')document.body.classList.add('theme-dark');})();
