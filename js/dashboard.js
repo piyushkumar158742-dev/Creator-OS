@@ -1,7 +1,7 @@
 window.renderDashboard = function(){
     const pending=state.tasks.filter(t=>!t.completed).slice(0,4);
     return `
-        <div class="dashboard-layout animate-fade-in">
+        <div class="dashboard-layout animate-fade-in"><section class="dashboard-hero"><div><span class="dashboard-eyebrow">✦ CREATOR WORKSPACE</span><h1>Your creator command center<span>.</span></h1><p>Plan content, track performance and keep every deal moving.</p></div><div class="dashboard-hero-actions"><button type="button" onclick="openNewVideoModal()" class="hero-primary"><i class="fa-solid fa-plus"></i> New Video</button><button type="button" onclick="navigate('calendar')" class="hero-secondary"><i class="fa-regular fa-calendar"></i> Calendar</button></div></section>
             <div class="stats-grid">
                 ${[
                     {label:'Total Views',value:'8.4M',icon:'fa-eye',color:'text-blue-500',bg:'bg-blue-50'},
