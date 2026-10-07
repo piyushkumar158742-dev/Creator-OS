@@ -11,3 +11,37 @@
 .quick-btn{transition:transform .18s ease,box-shadow .18s ease}.quick-btn:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(0,0,0,.1)}
 @keyframes dashFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.dashboard-v2,.dash-card,.dash-metrics,.dash-welcome{animation:none!important;transition:none!important}}
+
+.dashboard-v3{--bg:#f2f2f0;--text:#202124;--muted:#85878a;--line:#d9d9d6;--surface:transparent;--accent:#55575b;--good:#4f8068;min-height:100%;margin:-1px -1.5rem -2rem;padding:1.6rem clamp(1rem,3vw,3rem) 3rem;background:var(--bg);color:var(--text);transition:background .35s ease,color .35s ease}
+.dashboard-v3.is-dark{--bg:#202122;--text:#f0f0ed;--muted:#96989b;--line:#3b3c3e;--accent:#d5d5d1;--good:#91b39f}
+.dashboard-v3 .v3-theme{position:absolute;top:1.35rem;right:5.5rem;width:2rem;height:2rem;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--muted);cursor:pointer;transition:transform .2s ease,color .2s ease}
+.dashboard-v3 .v3-theme:hover{transform:rotate(15deg);color:var(--text)}
+.dashboard-v3 .v3-date{display:block;color:var(--muted);font-size:.62rem;margin-top:.25rem}
+.dashboard-v3 .dash-welcome{max-width:84rem;margin:0 auto 1.7rem;padding:.2rem 0;border:0}
+.dashboard-v3 .dash-welcome h1{font-size:1.45rem;color:var(--text);font-weight:700;letter-spacing:-.04em}
+.dashboard-v3 .dash-metrics{max-width:84rem;margin:0 auto 2rem;display:grid;grid-template-columns:repeat(4,1fr);background:transparent;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;box-shadow:none}
+.dashboard-v3 .metric,.dashboard-v3 .metric-main{padding:1rem 1.1rem;border-right:1px solid var(--line);background:transparent}
+.dashboard-v3 .metric:last-child{border-right:0}
+.dashboard-v3 .metric span,.dashboard-v3 .metric-main span{color:var(--muted)}
+.dashboard-v3 .metric strong,.dashboard-v3 .metric-main strong{color:var(--text)}
+.dashboard-v3 .metric small,.dashboard-v3 .metric-main small{color:var(--good)}
+.dashboard-v3 .dash-workspace,.dashboard-v3 .dash-bottom{max-width:84rem;margin:0 auto}
+.dashboard-v3 .dash-card{background:transparent;border:0;border-radius:0;padding:1.35rem 0;box-shadow:none;border-bottom:1px solid var(--line);transition:none}
+.dashboard-v3 .dash-card:hover{transform:none;box-shadow:none;border-color:var(--line)}
+.dashboard-v3 .dash-card h2{color:var(--text)}
+.dashboard-v3 .dash-card-head span,.dashboard-v3 .dash-card-head p,.dashboard-v3 .growth-axis,.dashboard-v3 .schedule-list small,.dashboard-v3 .video-list-v2 small{color:var(--muted)}
+.dashboard-v3 .range-pill{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.dashboard-v3 .growth-number{color:var(--text)}
+.dashboard-v3 .growth-lines i,.dashboard-v3 .stage-step,.dashboard-v3 .focus-item,.dashboard-v3 .video-list-v2>button,.dashboard-v3 .schedule-list>button{border-color:var(--line);background:transparent}
+.dashboard-v3 .stage-step{border-radius:0;padding:.7rem .25rem;border-left:0;border-top:0;border-bottom:0}
+.dashboard-v3 .stage-index{background:var(--line);color:var(--text)}
+.dashboard-v3 .stage-step strong,.dashboard-v3 .stage-step b,.dashboard-v3 .focus-item>span:nth-child(2),.dashboard-v3 .video-list-v2 strong,.dashboard-v3 .schedule-list strong{color:var(--text)}
+.dashboard-v3 .quick-card{background:transparent;color:var(--text);border-bottom:1px solid var(--line)}
+.dashboard-v3 .quick-card h2{color:var(--text)}
+.dashboard-v3 .quick-btn{background:var(--accent);color:var(--bg);border-radius:.45rem}
+.dashboard-v3 .video-mini-thumb,.dashboard-v3 .schedule-date{background:var(--line);color:var(--text)}
+.dashboard-v3 .dash-text-btn,.dashboard-v3 .dash-icon-btn{color:var(--muted);background:transparent;border-color:var(--line)}
+.dashboard-v3 .dash-view,.dashboard-v3 .focus-footer{background:transparent;color:var(--muted);border:0}
+@media(max-width:1100px){.dashboard-v3 .dash-metrics{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.dashboard-v3{margin:-1px -1rem -1.5rem;padding:1.2rem 1rem 2rem}.dashboard-v3 .dash-metrics{grid-template-columns:1fr 1fr}.dashboard-v3 .v3-theme{right:4rem}}
+@media(prefers-reduced-motion:reduce){.dashboard-v3 *{transition:none!important;animation:none!important}}
