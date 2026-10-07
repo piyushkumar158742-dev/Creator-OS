@@ -11,21 +11,21 @@ window.renderDashboard = function(){
     const upcoming=events.slice(0,3);
 
     return `
-    <div class="dashboard-v2 animate-fade-in">
+    <div class="dashboard-v3 animate-fade-in">
         <section class="dash-welcome">
             <div>
                 
-                <h1>Dashboard</h1>
+                <h1>Dashboard</h1><span class="v3-date">October 2026</span>
                 
             </div>
             
         </section>
 
-        <section class="dash-metrics">
-            <div class="metric-main"><span>Channel views</span><strong>8.4M</strong><small>↗ 12% <em>vs last 90 days</em></small></div>
+        <button type="button" onclick="toggleDashboardTheme()" class="v3-theme" aria-label="Toggle theme"><i class="fa-solid fa-circle-half-stroke"></i></button><section class="dash-metrics">
+            <div class="metric-main"><span>Views</span><strong>8.4M</strong><small>↗ 12% <em>vs last 90 days</em></small></div>
             <div class="metric"><i class="fa-solid fa-users"></i><span>Subscribers</span><strong>452K</strong><small>+8.4%</small></div>
-            <div class="metric"><i class="fa-solid fa-bolt"></i><span>Videos in progress</span><strong>${videos.filter(v=>v.status!=='Published').length}</strong><small>${videos.length} total</small></div>
-            <div class="metric"><i class="fa-solid fa-handshake"></i><span>Active deals</span><strong>${activeDeals}</strong><small>${brands.length} brands</small></div>
+            <div class="metric"><i class="fa-solid fa-bolt"></i><span>In progress</span><strong>${videos.filter(v=>v.status!=='Published').length}</strong><small>${videos.length} total</small></div>
+            <div class="metric"><i class="fa-solid fa-handshake"></i><span>Deals</span><strong>${activeDeals}</strong><small>${brands.length} brands</small></div>
         </section>
 
         <section class="dash-workspace">
@@ -63,3 +63,4 @@ window.renderDashboard = function(){
         </section>
     </div>`;
 };
+window.toggleDashboardTheme=function(){const el=document.querySelector(".dashboard-v3");if(!el)return;el.classList.toggle("is-dark");localStorage.setItem("creator-dashboard-theme",el.classList.contains("is-dark")?"dark":"light");};
