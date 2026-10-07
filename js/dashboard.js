@@ -21,7 +21,7 @@ window.renderDashboard = function(){
             
         </section>
 
-        <button type="button" onclick="toggleDashboardTheme()" class="v3-theme" aria-label="Toggle theme"><i class="fa-solid fa-circle-half-stroke"></i></button><section class="dash-metrics">
+        <section class="dash-metrics">
             <div class="metric-main"><span>Views</span><strong>8.4M</strong><small>↗ 12% <em>vs last 90 days</em></small></div>
             <div class="metric"><i class="fa-solid fa-users"></i><span>Subscribers</span><strong>452K</strong><small>+8.4%</small></div>
             <div class="metric"><i class="fa-solid fa-bolt"></i><span>In progress</span><strong>${videos.filter(v=>v.status!=='Published').length}</strong><small>${videos.length} total</small></div>
@@ -63,4 +63,3 @@ window.renderDashboard = function(){
         </section>
     </div>`;
 };
-window.toggleDashboardTheme=function(){const el=document.querySelector(".dashboard-v3");if(!el)return;el.classList.toggle("is-dark");localStorage.setItem("creator-dashboard-theme",el.classList.contains("is-dark")?"dark":"light");};
