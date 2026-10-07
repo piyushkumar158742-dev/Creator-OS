@@ -14,11 +14,11 @@ window.renderDashboard = function(){
     <div class="dashboard-v2 animate-fade-in">
         <section class="dash-welcome">
             <div>
-                <span class="dash-overline">YOUR CREATOR OS</span>
-                <h1>Build. Publish. Grow.</h1>
-                <p>Everything important, in one calm view.</p>
+                
+                <h1>Dashboard</h1>
+                
             </div>
-            <div class="dash-date"><i class="fa-regular fa-calendar"></i> October 6, 2026</div>
+            
         </section>
 
         <section class="dash-metrics">
@@ -31,35 +31,35 @@ window.renderDashboard = function(){
         <section class="dash-workspace">
             <div class="dash-left">
                 <article class="dash-card growth-card">
-                    <div class="dash-card-head"><div><span class="dash-label">GROWTH</span><h2>Views are trending up</h2></div><span class="range-pill">90 DAYS</span></div>
+                    <div class="dash-card-head"><div><h2>Views</h2></div><span class="range-pill">90d</span></div>
                     <div class="growth-number">8.4M <span>+12%</span></div>
                     <div class="growth-chart"><div class="growth-lines"><i></i><i></i><i></i><i></i></div><svg viewBox="0 0 760 220" preserveAspectRatio="none"><defs><linearGradient id="gfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#6366f1" stop-opacity=".18"/><stop offset="1" stop-color="#6366f1" stop-opacity="0"/></linearGradient></defs><path d="M0 180 C50 165 70 175 115 140 S185 155 225 120 S290 135 330 98 S390 112 430 82 S500 110 540 65 S620 72 660 45 S720 55 760 20 L760 220 L0 220Z" fill="url(#gfill)"></path><path d="M0 180 C50 165 70 175 115 140 S185 155 225 120 S290 135 330 98 S390 112 430 82 S500 110 540 65 S620 72 660 45 S720 55 760 20" fill="none" stroke="#6366f1" stroke-width="4" stroke-linecap="round"></path></svg><div class="growth-axis"><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span></div></div>
                 </article>
 
                 <article class="dash-card pipeline-card-v2">
-                    <div class="dash-card-head"><div><span class="dash-label">CONTENT ENGINE</span><h2>Production pipeline</h2></div><button type="button" onclick="navigate('videos')" class="dash-text-btn">Open pipeline →</button></div>
+                    <div class="dash-card-head"><div><h2>Pipeline</h2></div><button type="button" onclick="navigate('videos')" class="dash-text-btn">View all</button></div>
                     <div class="stage-track">${pipeline.map((stage,i)=>{const count=videos.filter(v=>v.status===stage).length;return `<button type="button" onclick="navigate('videos')" class="stage-step"><span class="stage-index">${i+1}</span><strong>${escapeHTML(stage)}</strong><b>${count}</b></button>`}).join('')}</div>
                 </article>
             </div>
 
             <aside class="dash-right">
                 <article class="dash-card today-card">
-                    <div class="dash-card-head"><div><span class="dash-label">TODAY</span><h2>Focus list</h2></div><button type="button" onclick="navigate('tasks')" class="dash-icon-btn"><i class="fa-solid fa-arrow-right"></i></button></div>
+                    <div class="dash-card-head"><div><h2>Today</h2></div><button type="button" onclick="navigate('tasks')" class="dash-icon-btn"><i class="fa-solid fa-arrow-right"></i></button></div>
                     <div class="focus-list">${pending.length?pending.map(t=>`<button type="button" onclick="toggleTask(${t.id})" class="focus-item"><span class="focus-check"></span><span>${escapeHTML(t.title)}</span><small>${escapeHTML(t.priority||'Normal')}</small></button>`).join(''):'<div class="empty-state py-8">Nothing urgent. Enjoy the day.</div>'}</div>
-                    <button type="button" onclick="navigate('tasks')" class="focus-footer">Open full to-do list <i class="fa-solid fa-arrow-right"></i></button>
+                    <button type="button" onclick="navigate('tasks')" class="focus-footer">View tasks <i class="fa-solid fa-arrow-right"></i></button>
                 </article>
                 <article class="dash-card quick-card">
-                    <span class="dash-label">QUICK ACTION</span>
-                    <h2>Ready for the next video?</h2>
-                    <p>Start an idea and let the pipeline take it from there.</p>
+                    
+                    <h2>New video</h2>
+                    
                     <button type="button" onclick="openNewVideoModal()" class="quick-btn"><i class="fa-solid fa-plus"></i> Create video</button>
                 </article>
             </aside>
         </section>
 
         <section class="dash-bottom">
-            <article class="dash-card list-card"><div class="dash-card-head"><div><span class="dash-label">RECENT WORK</span><h2>Latest videos</h2></div><button type="button" onclick="navigate('videos')" class="dash-text-btn">See all →</button></div><div class="video-list-v2">${videos.slice(0,4).map(v=>`<button type="button" onclick="openVideoPipelineModal(${v.id})"><span class="video-mini-thumb">${v.thumb?`<img src="${v.thumb}" alt="">`:`<span>🎬</span>`}</span><span><strong>${escapeHTML(v.title)}</strong><small>${escapeHTML(v.status)}</small></span><i class="fa-solid fa-chevron-right"></i></button>`).join('')||'<div class="empty-state py-6">No videos yet.</div>'}</div></article>
-            <article class="dash-card list-card"><div class="dash-card-head"><div><span class="dash-label">UP NEXT</span><h2>Schedule</h2></div><button type="button" onclick="navigate('calendar')" class="dash-text-btn">Calendar →</button></div><div class="schedule-list">${upcoming.map(e=>`<button type="button" onclick="navigate('calendar')"><span class="schedule-date"><b>${escapeHTML(String(e.day||String(e.date||'').split('-')[2]||''))}</b><small>OCT</small></span><span><strong>${escapeHTML(e.title||'Event')}</strong><small>${escapeHTML(e.time||'Upcoming')}</small></span></button>`).join('')||'<div class="empty-state py-6">Your schedule is clear.</div>'}</div></article>
+            <article class="dash-card list-card"><div class="dash-card-head"><div><h2>Recent videos</h2></div><button type="button" onclick="navigate('videos')" class="dash-text-btn">View all</button></div><div class="video-list-v2">${videos.slice(0,4).map(v=>`<button type="button" onclick="openVideoPipelineModal(${v.id})"><span class="video-mini-thumb">${v.thumb?`<img src="${v.thumb}" alt="">`:`<span>🎬</span>`}</span><span><strong>${escapeHTML(v.title)}</strong><small>${escapeHTML(v.status)}</small></span><i class="fa-solid fa-chevron-right"></i></button>`).join('')||'<div class="empty-state py-6">No videos yet.</div>'}</div></article>
+            <article class="dash-card list-card"><div class="dash-card-head"><div><h2>Upcoming</h2></div><button type="button" onclick="navigate('calendar')" class="dash-text-btn">Calendar</button></div><div class="schedule-list">${upcoming.map(e=>`<button type="button" onclick="navigate('calendar')"><span class="schedule-date"><b>${escapeHTML(String(e.day||String(e.date||'').split('-')[2]||''))}</b><small>OCT</small></span><span><strong>${escapeHTML(e.title||'Event')}</strong><small>${escapeHTML(e.time||'Upcoming')}</small></span></button>`).join('')||'<div class="empty-state py-6">Your schedule is clear.</div>'}</div></article>
         </section>
     </div>`;
 };
