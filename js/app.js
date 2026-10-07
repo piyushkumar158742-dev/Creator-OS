@@ -50,12 +50,7 @@ window.persistState = function(){
     try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(error){console.warn('Could not save workspace state:',error);}
 }
 
-window.initApp = function(){
-    try{
-        renderNav();
-        navigate(state.currentView||'dashboard',false);
-    }catch(error){showErrorBoundary(error);}
-}
+window.initApp=function(){try{navigate(state.currentView||'dashboard',false);}catch(error){showErrorBoundary(error);}}
 
 window.showErrorBoundary = function(error){
     console.error('Vyro Critical Error:',error);
@@ -160,3 +155,9 @@ document.addEventListener('DOMContentLoaded',initApp);
 
 // Keep shared application functions available to HTML onclick handlers.
 window.__VYRO_READY__ = true;
+
+window.toggleGlobalTheme=function(){
+ document.body.classList.toggle('theme-dark');
+ localStorage.setItem('vyro-theme',document.body.classList.contains('theme-dark')?'dark':'light');
+};
+(function(){if(localStorage.getItem('vyro-theme')==='dark')document.body.classList.add('theme-dark');})();
