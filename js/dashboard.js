@@ -14,18 +14,31 @@ window.renderDashboard = function(){
     <div class="dashboard-v3 animate-fade-in">
         <section class="dash-welcome">
             <div>
-                
                 <h1>Dashboard</h1><span class="v3-date">October 2026</span>
-                
             </div>
-            
         </section>
 
-        <section class="dash-metrics">
-            <div class="metric-main"><span>Views</span><strong>8.4M</strong><small>↗ 12% <em>vs last 90 days</em></small></div>
-            <div class="metric"><i class="fa-solid fa-users"></i><span>Subscribers</span><strong>452K</strong><small>+8.4%</small></div>
-            <div class="metric"><i class="fa-solid fa-bolt"></i><span>In progress</span><strong>${videos.filter(v=>v.status!=='Published').length}</strong><small>${videos.length} total</small></div>
-            <div class="metric"><i class="fa-solid fa-handshake"></i><span>Deals</span><strong>${activeDeals}</strong><small>${brands.length} brands</small></div>
+        <section class="studio-signals" aria-label="Channel overview">
+            <div class="signal-item">
+                <span>VIEWS</span>
+                <strong>8.4M</strong>
+                <small>+12% <em>last 90 days</em></small>
+            </div>
+            <div class="signal-item">
+                <span>SUBSCRIBERS</span>
+                <strong>452K</strong>
+                <small>+8.4%</small>
+            </div>
+            <div class="signal-item">
+                <span>IN PRODUCTION</span>
+                <strong>${videos.filter(v=>v.status!=='Published').length}</strong>
+                <small>${videos.length} total videos</small>
+            </div>
+            <div class="signal-item">
+                <span>ACTIVE DEALS</span>
+                <strong>${activeDeals}</strong>
+                <small>${brands.length} brands</small>
+            </div>
         </section>
 
         <section class="dash-apps" aria-label="Apps">
@@ -56,9 +69,7 @@ window.renderDashboard = function(){
                     <button type="button" onclick="navigate('tasks')" class="focus-footer">View tasks <i class="fa-solid fa-arrow-right"></i></button>
                 </article>
                 <article class="dash-card quick-card">
-                    
                     <h2>New video</h2>
-                    
                     <button type="button" onclick="openNewVideoModal()" class="quick-btn"><i class="fa-solid fa-plus"></i> Create video</button>
                 </article>
             </aside>
