@@ -1,20 +1,7 @@
-const navItems=[{id:'videos',label:'Videos'},{id:'tasks',label:'To-Do'},{id:'brands',label:'Brands'},{id:'calendar',label:'Calendar'}];
-window.renderNav=function(){};
-window.navigate=function(viewId,animate=true){
- const valid=['dashboard','videos','tasks','brands','calendar','settings'];
- if(!valid.includes(viewId))viewId='dashboard';
- state.currentView=viewId; persistState();
- document.querySelectorAll('[data-nav]').forEach(el=>el.classList.toggle('active',el.dataset.nav===viewId));
- const container=document.getElementById('view-container'); if(!container)return;
- if(animate)container.classList.add('view-changing');
- switch(viewId){
-  case'dashboard':container.innerHTML=renderDashboard();break;
-  case'videos':container.innerHTML=renderVideos();break;
-  case'tasks':container.innerHTML=renderTasks();break;
-  case'brands':container.innerHTML=renderBrands();break;
-  case'calendar':container.innerHTML=renderCalendar();break;
-  case'settings':container.innerHTML=renderSettings();break;
-  default:container.innerHTML=renderDashboard();
- }
- if(animate)setTimeout(()=>container.classList.remove('view-changing'),180);
-};
+'use strict';
+function draw(){document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav===S.view));$('#title').textContent=TT[S.view];
+try{$('#main').innerHTML=V[S.view]()}catch(e){console.error(e);$('#main').innerHTML='<div class="panel"><div class="empty">Something broke while drawing this page. Open Settings and reset the workspace, then reload.</div></div>'}}
+function go(v){S.view=v;save();draw();scrollTo(0,0)}
+function tick(){$('#clock').textContent=new Date().toLocaleString('en-IN',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')shut()});
+tick();setInterval(tick,30000);draw();
