@@ -1,34 +1,7 @@
-window.renderTasks = function(){
-    const groups=[
-        {key:'open',title:'To-Do',items:state.tasks.filter(t=>!t.completed)},
-        {key:'done',title:'Done',items:state.tasks.filter(t=>t.completed)}
-    ];
-    return `
-        <div class="tasks-container animate-fade-in">
-            <div class="task-board">
-                <div class="task-header">
-                    <div><h3 class="text-lg font-bold text-slate-800">To-Do List</h3><p class="text-sm text-slate-500 mt-1">Keep your next actions clear.</p></div>
-                    <button onclick="openTaskModal()" class="px-3 py-2 bg-indigo-50 text-indigo-600 rounded-lg text-sm font-bold hover:bg-indigo-100"><i class="fa-solid fa-plus mr-1"></i>Add Task</button>
-                </div>
-                ${groups.map(group=>`
-                    <div class="task-list">
-                        <div class="px-5 py-3 bg-slate-50 text-xs font-bold uppercase tracking-wider text-slate-400">${group.title}</div>
-                        ${group.items.length?group.items.map(task=>`
-                            <div class="task-item">
-                                <button onclick="toggleTask(${task.id})" class="task-checkbox ${task.completed?'completed':''}" aria-label="Toggle task"><i class="fa-solid fa-check text-xs"></i></button>
-                                <span class="task-title ${task.completed?'completed':''}">${escapeHTML(task.title)}</span>
-                                <span class="task-priority priority-${task.priority}">${task.priority}</span>
-                            </div>`).join(''):'<div class="empty-state py-6">No tasks here.</div>'}
-                    </div>`).join('')}
-            </div>
-        </div>`;
-}
-
-window.openTaskModal=function(){
-    openCustomModal('Add Task',`
-        <form onsubmit="addTask(event)" class="space-y-4">
-            <div><label class="form-label">Task</label><input name="title" required class="form-input" placeholder="What needs to be done?"></div>
-            <div><label class="form-label">Priority</label><select name="priority" class="form-input"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select></div>
-            <div class="flex justify-end gap-2"><button type="button" onclick="closeModal()" class="px-4 py-2 text-sm font-semibold text-slate-600">Cancel</button><button class="px-4 py-2 bg-midnight-600 text-white rounded-lg text-sm font-semibold">Add Task</button></div>
-        </form>`);
-};
+'use strict';
+V.tasks=()=>{const g=(l,L)=>`<section class="panel"><header><h3>${l} (${L.length})</h3></header>${L.map(x=>`<div class="row ${x.completed?'done':''}"><button class="chk ${x.completed?'on':''}" onclick="tk(${x.id})" aria-label="Mark ${x.completed?'not done':'done'}">${x.completed?'✓':''}</button><div><strong>${esc(x.title)}</strong></div><span class="tag ${x.priority}">${x.priority}</span><button class="btn del" onclick="tdel(${x.id})" aria-label="Delete task">✕</button></div>`).join('')||'<div class="empty">Nothing here.</div>'}</section>`;
+return`<div class="acts" style="margin:0 0 14px"><button class="btn" onclick="tm()">+ Add task</button></div>${g('To do',S.tasks.filter(x=>!x.completed))}${g('Done',S.tasks.filter(x=>x.completed))}`};
+function tm(){ask(`<h3>Add task</h3><form class="f" onsubmit="tsave(event)"><label>Task<input name="title" required maxlength="140"></label><label>Priority<select name="priority"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select></label><div class="acts"><button type="button" class="btn ghost" onclick="shut()">Cancel</button><button class="btn">Add task</button></div></form>`)}
+function tsave(e){e.preventDefault();const f=new FormData(e.target);S.tasks.push({id:uid(),title:f.get('title').trim(),completed:false,priority:f.get('priority')});done('Task added')}
+function tk(id){const t=S.tasks.find(x=>x.id===id);t.completed=!t.completed;save();draw()}
+function tdel(id){S.tasks=S.tasks.filter(x=>x.id!==id);save();draw()}
