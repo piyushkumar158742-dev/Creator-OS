@@ -26,14 +26,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>try{if(localStorage.getItem("vyro-theme")==="dark")document.documentElement.classList.add("theme-dark-preload")}catch(e){}</script>
-    <link rel="stylesheet" href="css/global.css?v=5">
-    <link rel="stylesheet" href="css/components.css?v=4">
-    <link rel="stylesheet" href="css/dashboard.css?v=6">
-    <link rel="stylesheet" href="css/videos.css?v=4">
-    <link rel="stylesheet" href="css/brands.css?v=4">
-    <link rel="stylesheet" href="css/calendar.css?v=4">
-    <link rel="stylesheet" href="css/settings.css?v=4">
-    <link rel="stylesheet" href="css/tasks.css?v=4">
+    <link rel="stylesheet" href="css/global.css?v=10">
+    <link rel="stylesheet" href="css/components.css?v=10">
+    <link rel="stylesheet" href="css/dashboard.css?v=10">
+    <link rel="stylesheet" href="css/videos.css?v=10">
+    <link rel="stylesheet" href="css/brands.css?v=10">
+    <link rel="stylesheet" href="css/calendar.css?v=10">
+    <link rel="stylesheet" href="css/settings.css?v=10">
+    <link rel="stylesheet" href="css/tasks.css?v=10">
 </head>
 <body class="font-sans antialiased selection:bg-midnight-500 selection:text-white">
 
@@ -47,7 +47,13 @@
     <div class="app-shell">
         <header class="topbar">
             <button class="brand" onclick="navigate('dashboard',false)" aria-label="Home"><span class="brand-mark">V</span><span>Vyro</span></button>
-            <div class="topbar-center"><span id="current-view-title">Dashboard</span></div>
+            <nav class="app-nav" aria-label="Creator apps">
+<button onclick="navigate('dashboard',false)" class="app-nav-item active" data-nav="dashboard">Home</button>
+<button onclick="navigate('videos')" class="app-nav-item" data-nav="videos">Videos</button>
+<button onclick="navigate('tasks')" class="app-nav-item" data-nav="tasks">To-Do</button>
+<button onclick="navigate('brands')" class="app-nav-item" data-nav="brands">Brands</button>
+<button onclick="navigate('calendar')" class="app-nav-item" data-nav="calendar">Calendar</button>
+</nav>
             <div class="topbar-actions">
                 <button onclick="showNotifications()" class="top-icon" aria-label="Notifications"><i class="fa-regular fa-bell"></i><span id="notification-dot" class="notification-dot"></span></button>
                 <button onclick="toggleGlobalTheme()" class="top-icon" aria-label="Toggle theme"><i class="fa-solid fa-circle-half-stroke"></i></button>
