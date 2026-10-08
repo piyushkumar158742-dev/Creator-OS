@@ -28,6 +28,13 @@ window.renderDashboard = function(){
             <div class="metric"><i class="fa-solid fa-handshake"></i><span>Deals</span><strong>${activeDeals}</strong><small>${brands.length} brands</small></div>
         </section>
 
+        <section class="dash-apps" aria-label="Apps">
+            <button class="app-tile" onclick="navigate('videos')"><span class="app-tile-icon"><i class="fa-solid fa-play"></i></span><span><strong>Videos</strong><small>Plan & publish</small></span></button>
+            <button class="app-tile" onclick="navigate('tasks')"><span class="app-tile-icon"><i class="fa-solid fa-check"></i></span><span><strong>To-Do</strong><small>Tasks & priorities</small></span></button>
+            <button class="app-tile" onclick="navigate('brands')"><span class="app-tile-icon"><i class="fa-solid fa-handshake"></i></span><span><strong>Brands</strong><small>Deals & campaigns</small></span></button>
+            <button class="app-tile" onclick="navigate('calendar')"><span class="app-tile-icon"><i class="fa-regular fa-calendar"></i></span><span><strong>Calendar</strong><small>Schedule & deadlines</small></span></button>
+        </section>
+
         <section class="dash-workspace">
             <div class="dash-left">
                 <article class="dash-card growth-card">
