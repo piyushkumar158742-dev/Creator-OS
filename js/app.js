@@ -1,174 +1,30 @@
-const STORAGE_KEY = 'vyro_creator_os_state';
-
-const defaultState = {
-    currentView: 'dashboard',
-    videos: [
-        { id:1,title:"I Spent 50 Hours In VR",status:"Editing",views:"1.2M",thumb:"https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=600&q=80" },
-        { id:2,title:"The Truth About Tech in 2026",status:"Script",views:"-",thumb:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" },
-        { id:3,title:"My $10,000 Studio Tour",status:"Idea",views:"-",thumb:null }
-    ],
-    tasks:[
-        {id:1,title:"Review sponsor contract",completed:false,priority:"high"},
-        {id:2,title:"Record B-Roll for VR video",completed:true,priority:"medium"},
-        {id:3,title:"Send thumbnail drafts to designer",completed:false,priority:"low"}
-    ],
-    brands:[
-        {id:1,name:"TechCorp",status:"Negotiating",amount:"$5,000",logo:"fa-laptop"},
-        {id:2,name:"VPN Secure",status:"Active",amount:"$3,500",logo:"fa-shield-halved"},
-        {id:3,name:"EnergyDrink",status:"Completed",amount:"$2,000",logo:"fa-bolt"}
-    ],
-    events:[
-        {id:1,title:"Publish VR Video",date:"2026-10-12",time:"10:00 AM",type:"video"},
-        {id:2,title:"TechCorp Sponsor Call",date:"2026-10-18",time:"2:00 PM",type:"brand"}
-    ],
-    settings:{creatorName:"Awesome Creator"},
-    pipelineSteps:["Idea","Script","Recording","Editing","Thumbnail","Published"]
-};
-
-let state = loadState();
-
-function loadState(){
-    try{
-        const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));
-        if(!saved) return structuredClone(defaultState);
-        return {
-            ...structuredClone(defaultState),
-            ...saved,
-            videos:saved.videos||defaultState.videos,
-            tasks:saved.tasks||defaultState.tasks,
-            brands:saved.brands||defaultState.brands,
-            events:saved.events||defaultState.events,
-            settings:{...defaultState.settings,...(saved.settings||{})}
-        };
-    }catch(error){
-        console.warn('Could not load saved workspace state:',error);
-        return structuredClone(defaultState);
-    }
-}
-
-window.persistState = function(){
-    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(error){console.warn('Could not save workspace state:',error);}
-}
-
-window.initApp=function(){try{navigate(state.currentView||'dashboard',false);}catch(error){showErrorBoundary(error);}}
-
-window.showErrorBoundary = function(error){
-    console.error('Vyro Critical Error:',error);
-    document.getElementById('error-boundary').classList.remove('hidden');
-    document.getElementById('error-message').textContent=error?.message||'A critical error occurred.';
-}
-
-window.escapeHTML = function(value=''){
-    return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
-}
-
-window.openCustomModal = function(title,contentHTML){
-    const modal=document.getElementById('global-modal');
-    const content=document.getElementById('modal-content');
-    content.innerHTML=`
-        <div class="p-5 sm:p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-            <h3 class="text-lg font-bold text-slate-900">${escapeHTML(title)}</h3>
-            <button onclick="closeModal()" class="text-slate-400 hover:text-slate-700" aria-label="Close"><i class="fa-solid fa-xmark text-xl"></i></button>
-        </div>
-        <div class="p-5 sm:p-6 text-slate-600">${contentHTML}</div>`;
-    modal.classList.remove('hidden');
-    requestAnimationFrame(()=>content.classList.add('scale-100','opacity-100'));
-}
-
-window.closeModal = function(){
-    const modal=document.getElementById('global-modal');
-    const content=document.getElementById('modal-content');
-    content.classList.remove('scale-100','opacity-100');
-    content.classList.add('scale-95','opacity-0');
-    setTimeout(()=>modal.classList.add('hidden'),180);
-}
-
-window.openNewVideoModal = function(){
-    const gradients=PIPELINE_GRADIENTS||['linear-gradient(135deg,#4f46e5,#7c3aed)'];
-    const emojis=PIPELINE_EMOJIS||['🎬'];
-    const randomGradient=gradients[Math.floor(Math.random()*gradients.length)];
-    const randomEmoji=emojis[Math.floor(Math.random()*emojis.length)];
-    openCustomModal('Create New Video',`
-        <form onsubmit="createVideo(event)" class="space-y-4">
-            <div><label class="form-label">Video title</label><input name="title" required maxlength="120" class="form-input" placeholder="Enter your video title"></div>
-            <div class="thumbnail-picker">
-                <div id="new-video-thumb-preview" class="thumbnail-preview" style="background:${randomGradient}"><span class="pipeline-thumb-text">${randomEmoji}</span></div>
-                <label class="form-label">Thumbnail</label>
-                <input name="thumbnail" id="new-video-image" type="file" accept="image/*" class="form-input" onchange="previewVideoImage(event,'new-video-thumb-preview')">
-                <p class="text-xs text-slate-400 mt-1">Upload an image or use the generated thumbnail.</p>
-            </div>
-            <div><label class="form-label">Idea / notes</label><textarea name="notes" class="form-input min-h-24" placeholder="Optional"></textarea></div>
-            <div class="flex justify-end gap-2 pt-2"><button type="button" onclick="closeModal()" class="px-4 py-2 text-sm font-semibold text-slate-600">Cancel</button><button type="submit" class="px-4 py-2 rounded-lg bg-midnight-600 text-white text-sm font-semibold">Create Video</button></div>
-        </form>`);
-}
-
-window.createVideo=function(event){
-    event.preventDefault();
-    const data=new FormData(event.target);
-    const title=String(data.get('title')||'').trim();
-    const video={id:Date.now(),title,status:'Idea',views:'-',thumb:null,thumbGradient:document.getElementById('new-video-thumb-preview')?.style.background||'',thumbEmoji:document.querySelector('#new-video-thumb-preview .pipeline-thumb-text')?.textContent||'🎬',notes:String(data.get('notes')||'')};
-    const file=document.getElementById('new-video-image')?.files?.[0];
-    if(file){
-        const reader=new FileReader();
-        reader.onload=()=>{video.thumb=reader.result;video.thumbGradient=null;video.thumbEmoji=null;state.videos.unshift(video);persistState();closeModal();navigate('videos',false);};
-        reader.readAsDataURL(file);
-        return;
-    }
-    state.videos.unshift(video);
-    persistState();closeModal();navigate('videos',false);
-};
-
-window.toggleTask=function(id){
-    const task=state.tasks.find(t=>t.id===id);
-    if(!task)return;
-    task.completed=!task.completed;
-    persistState();
-    if(state.currentView==='tasks') navigate('tasks',false); else renderDashboardIntoContainer();
-};
-
-window.addTask=function(event){
-    event.preventDefault();
-    const data=new FormData(event.target);
-    state.tasks.push({id:Date.now(),title:data.get('title').trim(),completed:false,priority:data.get('priority')});
-    persistState(); closeModal(); navigate('tasks',false);
-};
-
-window.showNotifications=function(){
-    const pending=state.tasks.filter(t=>!t.completed).length;
-    openCustomModal('Notifications',`
-        <div class="space-y-3">
-            <div class="p-3 rounded-xl bg-slate-50 border border-slate-100"><b>${pending} task${pending===1?'':'s'} pending</b><p class="text-sm text-slate-500 mt-1">Review your To-Do list for the next action.</p></div>
-            <div class="p-3 rounded-xl bg-slate-50 border border-slate-100"><b>Creator OS is running locally</b><p class="text-sm text-slate-500 mt-1">Connect Firebase and YouTube later to replace demo data with your real workspace.</p></div>
-        </div>`);
-};
-
-window.renderDashboardIntoContainer = function(){
-    const container=document.getElementById('view-container');
-    if(container && state.currentView==='dashboard') container.innerHTML=renderDashboard();
-}
-
-window.addEventListener('resize',()=>{if(window.innerWidth>900)closeMobileNav();});
-document.addEventListener('DOMContentLoaded',initApp);
-
-// Keep shared application functions available to HTML onclick handlers.
-window.__VYRO_READY__ = true;
-
-
-
-window.toggleGlobalTheme=function(){
- const dark=!document.documentElement.classList.contains('theme-dark');
- document.documentElement.classList.toggle('theme-dark',dark);
- document.body.classList.toggle('theme-dark',dark);
- localStorage.setItem('vyro-theme',dark?'dark':'light');
- const btn=document.querySelector('[aria-label="Toggle theme"]');
- if(btn)btn.innerHTML=dark?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>';
-};
-(function(){
- const dark=localStorage.getItem('vyro-theme')==='dark';
- document.documentElement.classList.toggle('theme-dark',dark);
- document.body.classList.toggle('theme-dark',dark);
- document.addEventListener('DOMContentLoaded',()=>{
-   const btn=document.querySelector('[aria-label="Toggle theme"]');
-   if(btn)btn.innerHTML=dark?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>';
- });
-})();
+'use strict';
+const KEY='vyro_creator_os_state',ST=['Idea','Script','Recording','Editing','Thumbnail','Published'],SC=['#98A2B3','#2F4BFF','#7A5AF8','#FFB020','#FF2D6F','#12B886'];
+const GR=['linear-gradient(135deg,#2F4BFF,#7A5AF8)','linear-gradient(135deg,#FF2D6F,#FFB020)','linear-gradient(135deg,#12B886,#2F4BFF)','linear-gradient(135deg,#101828,#7A5AF8)'],EM=['🎬','🚀','🎥','⚡','🔥','💡','🎯','🧠'];
+const TT={home:'Desk',videos:'Pipeline',tasks:'To-do',brands:'Deals',calendar:'Schedule',settings:'Settings'};
+const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0'),uid=()=>Date.now()*10+Math.floor(Math.random()*10);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const money=n=>S.settings.cur+Number(n||0).toLocaleString('en-IN');
+const byDate=(a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||''));
+const fmt=d=>new Date(d+'T00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+function seed(){const t=new Date(),d=n=>{const x=new Date(t);x.setDate(t.getDate()+n);return iso(x)};
+return{view:'home',settings:{name:'Creator',cur:'₹'},
+videos:[{id:1,title:'I Spent 50 Hours In VR',status:'Editing',views:'1.2M',notes:''},{id:2,title:'The Truth About Tech in 2026',status:'Script',views:'',notes:''},{id:3,title:'My ₹10,000 Studio Tour',status:'Idea',views:'',notes:''}],
+tasks:[{id:1,title:'Review sponsor contract',completed:false,priority:'high'},{id:2,title:'Record B-roll for VR video',completed:true,priority:'medium'},{id:3,title:'Send thumbnail drafts to designer',completed:false,priority:'low'}],
+brands:[{id:1,name:'TechCorp',status:'Negotiating',amount:5000,email:''},{id:2,name:'VPN Secure',status:'Active',amount:3500,email:''},{id:3,name:'EnergyDrink',status:'Completed',amount:2000,email:''}],
+events:[{id:1,title:'Publish VR video',date:d(3),time:'10:00',type:'video'},{id:2,title:'TechCorp sponsor call',date:d(6),time:'14:00',type:'brand'}]}}
+function load(){const s=seed();try{const o=JSON.parse(localStorage.getItem(KEY));if(!o)return s;
+const n={...s,...o,settings:{...s.settings,...o.settings,name:o.settings?.name||o.settings?.creatorName||s.settings.name}};
+n.view=TT[o.view]?o.view:'home';
+n.videos=(n.videos||[]).map(v=>({...v,status:ST.includes(v.status)?v.status:'Idea',views:v.views==='-'?'':v.views||''}));
+n.brands=(n.brands||[]).map(b=>({...b,amount:Number(String(b.amount).replace(/[^0-9.]/g,''))||0}));
+n.events=(n.events||[]).filter(e=>/^\d{4}-\d\d-\d\d$/.test(e.date||''));return n}catch(e){return s}}
+let S=load(),cal=(d=>({y:d.getFullYear(),m:d.getMonth(),sel:iso(d)}))(new Date()),pend=null;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));return true}catch(e){toast('Storage is full. Use a smaller thumbnail or export your data in Settings.');return false}}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2800)}
+function ask(h){$('#sheet').innerHTML=h;$('#modal').hidden=false;$('#sheet input,#sheet select,#sheet textarea')?.focus()}
+function shut(){$('#modal').hidden=true;pend=null}
+const th=v=>`<div class="th">${v.thumb?`<img src="${esc(v.thumb)}" alt="">`:`<div class="gt" style="background:${GR[v.id%4]}">${EM[v.id%8]}</div>`}</div>`;
+const done=(fn)=>{save();shut();draw();fn&&toast(fn)};
+const V={};
