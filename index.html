@@ -5,35 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vyro - Creator OS</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        midnight: {
-                            50:'#f0f3ff',100:'#e0e7ff',200:'#c7d2fe',300:'#a5b4fc',
-                            400:'#818cf8',500:'#6366f1',600:'#4f46e5',700:'#4338ca',
-                            800:'#3730a3',900:'#312e81',950:'#1e1b4b'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>try{if(localStorage.getItem("vyro-theme")==="dark")document.documentElement.classList.add("theme-dark-preload")}catch(e){}</script>
-    <link rel="stylesheet" href="css/global.css?v=11">
-    <link rel="stylesheet" href="css/components.css?v=10">
-    <link rel="stylesheet" href="css/dashboard.css?v=10">
-    <link rel="stylesheet" href="css/videos.css?v=10">
-    <link rel="stylesheet" href="css/brands.css?v=10">
-    <link rel="stylesheet" href="css/calendar.css?v=10">
-    <link rel="stylesheet" href="css/settings.css?v=10">
-    <link rel="stylesheet" href="css/tasks.css?v=10">
+    <link rel="stylesheet" href="css/global.css?v=20">
+    <link rel="stylesheet" href="css/components.css?v=20">
+    <link rel="stylesheet" href="css/dashboard.css?v=20">
+    <link rel="stylesheet" href="css/videos.css?v=20">
+    <link rel="stylesheet" href="css/brands.css?v=20">
+    <link rel="stylesheet" href="css/calendar.css?v=20">
+    <link rel="stylesheet" href="css/settings.css?v=20">
+    <link rel="stylesheet" href="css/tasks.css?v=20">
 </head>
 <body class="font-sans antialiased selection:bg-midnight-500 selection:text-white">
 
@@ -45,15 +28,7 @@
     </div>
 
     <div class="app-shell">
-        <header class="topbar">
-            <button class="brand" onclick="navigate('dashboard',false)" aria-label="Home"><span class="brand-mark">V</span><span>Vyro</span></button>
-            <div class="topbar-center"><span id="current-view-title">Dashboard</span></div>
-            <div class="topbar-actions">
-                <button onclick="showNotifications()" class="top-icon" aria-label="Notifications"><i class="fa-regular fa-bell"></i><span id="notification-dot" class="notification-dot"></span></button>
-                <button onclick="toggleGlobalTheme()" class="top-icon" aria-label="Toggle theme"><i class="fa-solid fa-circle-half-stroke"></i></button>
-                <button onclick="openNewVideoModal()" class="top-new"><i class="fa-solid fa-plus"></i><span>New video</span></button>
-            </div>
-        </header>
+        <header class="topbar"><button class="brand" onclick="navigate('dashboard',false)" aria-label="Home"><span class="brand-mark">V</span><span>Vyro</span></button><div class="workspace-label"><span>CREATOR WORKSPACE</span><strong id="current-view-title">Home</strong></div><div class="topbar-actions"><button onclick="showNotifications()" class="top-icon" aria-label="Notifications"><i class="fa-regular fa-bell"></i><span id="notification-dot" class="notification-dot"></span></button><button onclick="toggleGlobalTheme()" class="top-icon theme-toggle" aria-label="Toggle theme"><i class="fa-solid fa-circle-half-stroke"></i></button><button onclick="openNewVideoModal()" class="top-new"><i class="fa-solid fa-plus"></i><span>New video</span></button></div></header>
         <main id="view-container" class="app-content"></main>
     </div>
 
