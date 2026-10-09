@@ -2,7 +2,7 @@
 V.videos=()=>`<div class="board">${ST.map((s,i)=>{const L=S.videos.filter(v=>v.status===s);return`<section class="bin" style="--c:${SC[i]}" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="drop(event,'${s}')"><header>${s}<span>${L.length}</span></header><div class="cards">
 ${L.map(v=>`<article class="card" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',${v.id})" onclick="vm(${v.id})">${th(v)}<div class="bd"><strong>${esc(v.title)}</strong><small>${v.views?esc(v.views)+' views':'Not published yet'}</small><div class="mv" onclick="event.stopPropagation()">${i?`<button onclick="vmove(${v.id},${i-1})">← ${ST[i-1]}</button>`:''}${i<5?`<button onclick="vmove(${v.id},${i+1})">${ST[i+1]} →</button>`:''}</div></div></article>`).join('')||'<div class="empty">Drop a video here</div>'}</div></section>`}).join('')}</div>`;
 function vm(id){const v=id?S.videos.find(x=>x.id===id):{id:uid(),status:'Idea'};if(!v)return;pend=null;
-ask(`<h3>${id?'Edit video':'New video'}</h3><form class="f" onsubmit="vsave(event,${id||0})"><div id="pv">${th(v)}</div>
+ask(`<h3>${id?'Edit video':'New video'}</h3><form class="f" onsubmit="vsave(event,${id||0})">${id||v.thumb?`<div id="pv">${th(v)}</div>`:`<div id="pv" class="new-video-preview" hidden></div>`}
 <label>Title<input name="title" required maxlength="120" value="${esc(v.title||'')}"></label>
 <label>Stage<select name="status">${ST.map(s=>`<option ${s===v.status?'selected':''}>${s}</option>`).join('')}</select></label>
 <label>Views (once published)<input name="views" value="${esc(v.views||'')}" placeholder="e.g. 12K"></label>
