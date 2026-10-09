@@ -4,8 +4,8 @@ return`<div class="tl"><div class="tl-in"><div class="tl-head"><span></span><div
 ${[['Videos','video'],['Brands','brand'],['Other','other']].map(([n,k])=>`<div class="tl-row"><em>${n}</em><div class="tl-track">${S.events.filter(e=>(e.type||'other')===k&&ds.includes(e.date)).map(e=>{const i=ds.indexOf(e.date);return`<button class="clip ${k}" style="grid-column:${i+1}/span ${Math.min(3,14-i)}" onclick="calSel('${e.date}');go('calendar')"><b>${esc(e.title)}</b>${esc(e.time||'')}</button>`}).join('')}</div></div>`).join('')}
 <u class="head"></u></div></div>`}
 
-V.home=()=>{const{videos:v,brands:b}=S;
-const up=S.events.filter(e=>e.date>=iso(new Date())).sort(byDate).slice(0,4);
+V.home=()=>{const{videos:v,brands:b,tasks}=S;
+const latest=(tasks||[]).slice().reverse().slice(0,3);
 return`<h2 class="hi">${esc(S.settings.name)}'s workspace</h2>
 <section class="strip" aria-label="Channel overview">
   <div><b>452K</b><span>Subscribers</span></div>
@@ -14,6 +14,6 @@ return`<h2 class="hi">${esc(S.settings.name)}'s workspace</h2>
   <div><b>${v.length}</b><span>Videos</span></div>
 </section>
 <section class="panel"><header><h3>Next two weeks</h3><button class="lnk" onclick="go('calendar')">Open schedule</button></header>${timeline()}</section>
-<section class="panel"><header><h3>Coming up</h3><button class="lnk" onclick="go('calendar')">Open calendar</button></header>
-${up.map(e=>`<button class="row" onclick="calSel('${e.date}');go('calendar')"><div><strong>${esc(e.title)}</strong><small>${fmt(e.date)} ${esc(e.time||'')}</small></div></button>`).join('')||'<div class="empty">Nothing scheduled.</div>'}
+<section class="panel dashboard-tasks"><header><h3>Latest tasks</h3><button class="lnk" onclick="go('tasks')">All tasks</button></header>
+${latest.map(t=>`<div class="row ${t.completed?'done':''}"><button class="chk ${t.completed?'on':''}" onclick="tk(${t.id})" aria-label="Mark ${t.completed?'not done':'done'}">${t.completed?'✓':''}</button><button class="task-title" onclick="go('tasks')"><strong>${esc(t.title)}</strong></button><span class="tag ${esc(t.priority||'medium')}">${esc(t.priority||'medium')}</span></div>`).join('')||'<div class="empty">No tasks yet. Add your first task.</div>'}
 </section>`};
