@@ -1,8 +1,8 @@
 'use strict';
-V.settings=()=>`<div class="set"><section class="panel"><header><h3>Workspace</h3></header><div class="pad"><label>Your name<input id="sn" value="${esc(S.settings.name)}" maxlength="40"></label>
+V.settings=()=>`<div class="set"><section class="panel"><header><h3>Workspace</h3></header><div class="pad"><label>Your name<input id="sn" value="${esc(S.settings.name)}" maxlength="20" oninput="this.value=this.value.slice(0,20)"></label>
 <label>Currency<select id="sc">${['₹','$','€','£'].map(c=>`<option ${c===S.settings.cur?'selected':''}>${c}</option>`).join('')}</select></label><div class="acts"><button class="btn" onclick="ssave()">Save settings</button></div></div></section>
 <section class="panel"><header><h3>YouTube</h3></header><div class="pad"><p>Not connected. Channel sync arrives once Firebase and the YouTube API are set up.</p><div class="acts"><button class="btn ghost" onclick="toast('YouTube sign-in needs Firebase configured first.')">Connect channel</button></div></div></section>
 <section class="panel"><header><h3>Your data</h3></header><div class="pad"><p>Everything is stored in this browser until a backend is connected.</p><div class="acts"><button class="btn ghost" onclick="sexp()">Export backup</button><button class="btn del" onclick="srst()">Reset workspace</button></div></div></section></div>`;
-function ssave(){S.settings.name=$('#sn').value.trim()||'Creator';S.settings.cur=$('#sc').value;save();toast('Settings saved')}
+function ssave(){S.settings.name=$('#sn').value.trim().slice(0,20)||'Creator';S.settings.cur=$('#sc').value;save();toast('Settings saved')}
 function sexp(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));a.download='vyro-backup.json';a.click();URL.revokeObjectURL(a.href)}
 function srst(){if(confirm('Erase all videos, tasks, deals and events on this device?')){S=seed();save();go('home');toast('Workspace reset')}}
