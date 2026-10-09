@@ -22,3 +22,13 @@ h1,h2,h3,.rail .logo,.strip b{font-family:Unbounded,sans-serif;font-weight:700}
 .wrap{padding:16px 14px 30px}
 #clock{display:none}.btn{padding:9px 12px}.top h1{font-size:18px}
 }
+
+/* Consistent, restrained motion across the workspace */
+.rail button,.btn,.lnk,.panel,.row{transition:background-color .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.rail button:hover{transform:translateY(-1px)}
+.btn{transition:background-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 5px 14px #2f4bff24}
+.btn:active{transform:translateY(0) scale(.985)}
+#main{animation:workspace-enter .24s ease both}
+@keyframes workspace-enter{from{opacity:.82;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){#main{animation:none!important}.rail button,.btn,.lnk,.panel,.row{transition:none!important}}
