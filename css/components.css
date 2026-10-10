@@ -44,3 +44,26 @@ textarea{min-height:90px;resize:vertical}.f{display:grid;gap:14px}.acts{display:
 @keyframes premium-sheet-in{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(max-width:600px){.modal{padding:12px;align-items:end}.sheet{width:100%;max-height:88dvh;padding:25px 20px 20px;border-radius:18px 18px 14px 14px}.sheet:before{left:20px;right:20px}.sheet h3{font-size:17px;margin-bottom:21px}.sheet .f{gap:15px}.sheet .acts{position:sticky;bottom:-20px;background:linear-gradient(180deg,rgba(251,252,255,.92),#fbfcff 24%);padding:16px 0 3px;margin-top:2px}.sheet .acts .btn{padding:10px 13px}}
 @media(prefers-reduced-motion:reduce){.sheet,.sheet input,.sheet select,.sheet textarea,.sheet .acts .btn{animation:none!important;transition:none!important}}
+
+
+/* Creator form refinement */
+.sheet{width:min(570px,100%);padding:0;overflow:auto}
+.sheet:before{left:0;right:0;height:4px;border-radius:18px 18px 0 0}
+.sheet .form-heading{display:flex;align-items:flex-start;gap:14px;padding:30px 30px 22px;border-bottom:1px solid #edf0f6;background:radial-gradient(ellipse at 100% 0%,rgba(108,124,255,.11),transparent 52%),linear-gradient(180deg,#fff,#fcfcff)}
+.sheet .form-mark{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;border-radius:14px;background:linear-gradient(145deg,#e9edff,#f4eaff);color:#3448d5;font-size:23px;box-shadow:inset 0 0 0 1px #dfe4ff}
+.sheet .form-heading>div{min-width:0;padding-top:1px}
+.sheet .form-eyebrow{display:block;color:#5264db;font-size:9px;font-weight:850;letter-spacing:.16em;margin:0 0 6px}
+.sheet .form-heading h3{margin:0;font-size:19px;line-height:1.3}
+.sheet .form-heading p{font-size:12px;color:#778197;line-height:1.5;margin:7px 0 0}
+.sheet .video-form{padding:23px 30px 30px;gap:18px}
+.sheet .video-form>label,.sheet .video-form .form-pair>label{gap:8px}
+.sheet .video-form .form-pair{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.sheet .video-form .label-note{display:inline;color:#929bad;font-weight:500;font-size:10px;letter-spacing:0}
+.sheet .video-form input:not([type=file]),.sheet .video-form select{height:45px}
+.sheet .video-form textarea{min-height:105px}
+.sheet .video-form .acts{margin:3px 0 0;padding-top:19px}
+.sheet .video-form input[type=file]{min-height:49px}
+.sheet .video-form #pv{margin:0;border:1px solid #e4e8f1;border-radius:12px;padding:6px;background:#f6f7fb}
+.sheet .video-form #pv .gt,.sheet .video-form #pv .th{border-radius:8px}
+@media(max-width:600px){.sheet{width:100%;padding:0}.sheet .form-heading{padding:26px 20px 19px}.sheet .form-mark{width:40px;height:40px;flex-basis:40px;border-radius:12px}.sheet .form-heading h3{font-size:17px}.sheet .video-form{padding:20px 20px 22px;gap:16px}.sheet .video-form .form-pair{gap:10px}.sheet .video-form .form-pair>label{min-width:0}.sheet .video-form .acts{bottom:-22px}}
+@media(max-width:390px){.sheet .video-form .form-pair{grid-template-columns:1fr}}
