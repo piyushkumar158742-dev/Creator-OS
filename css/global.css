@@ -32,3 +32,8 @@ h1,h2,h3,.rail .logo,.strip b{font-family:Unbounded,sans-serif;font-weight:700}
 #main{animation:workspace-enter .24s ease both}
 @keyframes workspace-enter{from{opacity:.82;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){#main{animation:none!important}.rail button,.btn,.lnk,.panel,.row{transition:none!important}}
+
+/* Keep scrolling usable while hiding the distracting scrollbar chrome */
+html,body{scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar,.wrap::-webkit-scrollbar,#main::-webkit-scrollbar{width:0;height:0;display:none}
+html{scroll-behavior:smooth}
