@@ -37,3 +37,32 @@ h1,h2,h3,.rail .logo,.strip b{font-family:Unbounded,sans-serif;font-weight:700}
 html,body{scrollbar-width:none;-ms-overflow-style:none}
 html::-webkit-scrollbar,body::-webkit-scrollbar,.wrap::-webkit-scrollbar,#main::-webkit-scrollbar{width:0;height:0;display:none}
 html{scroll-behavior:smooth}
+
+/* Vyro motion system — restrained, consistent, and purposeful */
+:root{--motion-fast:150ms;--motion-base:220ms;--motion-slow:360ms;--ease-out:cubic-bezier(.2,.75,.25,1);--ease-spring:cubic-bezier(.2,.85,.25,1.25)}
+button,.btn,.lnk,.panel,.deal,.day,.currency-choice,.chk{ -webkit-tap-highlight-color:transparent}
+button:focus-visible,.btn:focus-visible{outline-offset:3px}
+.rail button{position:relative;transition:color var(--motion-base) var(--ease-out),background var(--motion-base) var(--ease-out),transform var(--motion-base) var(--ease-spring)}
+.rail button:before{content:"";position:absolute;left:4px;top:20%;bottom:20%;width:3px;border-radius:9px;background:var(--flag);transform:scaleY(0);transition:transform var(--motion-base) var(--ease-out)}
+.rail button.on:before{transform:scaleY(1)}
+.btn{position:relative;overflow:hidden;transition:transform var(--motion-fast) var(--ease-spring),box-shadow var(--motion-base) var(--ease-out),background var(--motion-base) var(--ease-out)}
+.btn:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 25%,#ffffff26 48%,transparent 70%);transform:translateX(-130%);transition:transform 480ms var(--ease-out);pointer-events:none}
+.btn:hover:after{transform:translateX(130%)}
+.panel{transition:border-color var(--motion-base) var(--ease-out),box-shadow var(--motion-base) var(--ease-out)}
+.panel:hover{border-color:color-mix(in srgb,var(--ln) 60%,var(--blue) 40%)}
+.row{transition:background var(--motion-base) var(--ease-out),transform var(--motion-base) var(--ease-out)}
+.row:active{transform:scale(.997)}
+.lnk{display:inline-block;transition:color var(--motion-base),transform var(--motion-base)}
+.lnk:hover{transform:translateX(2px)}
+.sheet{transform-origin:center;animation:sheet-in 240ms var(--ease-spring) both}
+.modal:not([hidden]){animation:veil-in 180ms ease both}
+#toast.on{animation:toast-in 220ms var(--ease-spring) both}
+.day{transition:background var(--motion-base),box-shadow var(--motion-base),transform var(--motion-fast)}
+.day:active{transform:scale(.98)}
+.day .n{transition:background var(--motion-base),color var(--motion-base),transform var(--motion-base) var(--ease-spring)}
+.day:hover .n{transform:scale(1.06)}
+input,select,textarea{transition:border-color var(--motion-base),box-shadow var(--motion-base),background var(--motion-base)}
+@keyframes sheet-in{from{opacity:0;transform:translateY(9px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes veil-in{from{background:#10182800}to{background:#10182899}}
+@keyframes toast-in{from{opacity:0;transform:translate(-50%,8px) scale(.98)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
