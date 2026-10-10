@@ -25,6 +25,6 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S));return true}catc
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2800)}
 function ask(h){$('#sheet').innerHTML=h;$('#modal').hidden=false;$('#sheet input,#sheet select,#sheet textarea')?.focus()}
 function shut(){$('#modal').hidden=true;pend=null}
-const th=v=>`<div class="th">${v.thumb?`<img src="${esc(v.thumb)}" alt="">`:`<div class="gt" style="--thumb-tone:${v.id%4}"><span class="gt-icon" aria-hidden="true">${EM[v.id%8]}</span><span class="gt-title">${esc(v.title||'New video')}</span></div>`}</div>`;
+const th=v=>`<div class="th"><div class="gt tone-${Math.abs(Number(v.id)||0)%4}"><span class="gt-kicker">VYRO / VIDEO</span><span class="gt-icon" aria-hidden="true">${EM[Math.abs(Number(v.id)||0)%8]}</span><span class="gt-title">${esc(v.title||'New video')}</span>${v.thumb?`<span class="gt-custom" title="Custom thumbnail attached"><img src="${esc(v.thumb)}" alt="Custom thumbnail preview"></span>`:'' }<span class="gt-index">${String(Math.abs(Number(v.id)||0)%99+1).padStart(2,'0')}</span></div></div>`;
 const done=(fn)=>{save();shut();draw();fn&&toast(fn)};
 const V={};
