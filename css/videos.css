@@ -105,3 +105,13 @@
 @keyframes stage-current-pulse{0%,100%{box-shadow:0 0 0 3px color-mix(in srgb,var(--stage) 12%,transparent)}50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--stage) 6%,transparent)}}
 @media(max-width:480px){.video-stage-flow{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px 5px}.stage-step:before{display:none}.stage-step span{width:32px;height:32px;min-width:32px}}
 @media(prefers-reduced-motion:reduce){.stage-step,.stage-step span,.stage-step small{animation:none!important;transition:none!important}}
+
+/* Calm pipeline motion: stagger cards, then gently emphasize the active stage */
+.video-tile{animation:video-card-in .38s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--card-index,0) * 45ms)}
+.video-tile:nth-child(1){--card-index:0}.video-tile:nth-child(2){--card-index:1}.video-tile:nth-child(3){--card-index:2}.video-tile:nth-child(4){--card-index:3}.video-tile:nth-child(5){--card-index:4}.video-tile:nth-child(6){--card-index:5}.video-tile:nth-child(7){--card-index:6}.video-tile:nth-child(8){--card-index:7}
+.stage-step.current span{animation:stage-ring 2.4s ease-in-out infinite}
+.stage-step.current{animation:stage-settle .28s ease-out both}
+@keyframes video-card-in{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes stage-ring{0%,100%{box-shadow:0 0 0 3px color-mix(in srgb,var(--stage) 12%,transparent)}50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--stage) 5%,transparent)}}
+@keyframes stage-settle{from{opacity:.7;transform:translateY(2px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.video-tile,.stage-step,.stage-step.current span{animation:none!important}}
