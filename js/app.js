@@ -15,7 +15,7 @@ tasks:[{id:1,title:'Review sponsor contract',completed:false,priority:'high'},{i
 brands:[{id:1,name:'TechCorp',status:'Negotiating',amount:5000,email:''},{id:2,name:'VPN Secure',status:'Active',amount:3500,email:''},{id:3,name:'EnergyDrink',status:'Completed',amount:2000,email:''}],
 events:[{id:1,title:'Publish VR video',date:d(3),time:'10:00',type:'video'},{id:2,title:'TechCorp sponsor call',date:d(6),time:'14:00',type:'brand'}]}}
 function cleanViews(value){const raw=String(value??'').trim();if(!raw||raw==='-')return '';if(/^\d+$/.test(raw))return raw;const m=raw.match(/^([\d.]+)\s*([KMB])$/i);if(m){const n=Number(m[1])*({K:1e3,M:1e6,B:1e9}[m[2].toUpperCase()]);return Number.isFinite(n)?String(Math.round(n)):''}return raw}
-function cleanViews(value){const raw=String(value??'').trim();if(!raw||raw==='-')return '';if(/^\d+$/.test(raw))return raw;const m=raw.match(/^([\d.]+)\s*([KMB])$/i);if(m){const n=Number(m[1])*({K:1e3,M:1e6,B:1e9}[m[2].toUpperCase()]);return Number.isFinite(n)?String(Math.round(n)):''}return raw}
+function formatViews(value){const n=Number(value);if(!Number.isFinite(n)||!value)return String(value||'');if(n>=1e9)return (n/1e9).toFixed(n>=1e10?0:1).replace(/\.0$/,'')+'B';if(n>=1e6)return (n/1e6).toFixed(n>=1e7?0:1).replace(/\.0$/,'')+'M';if(n>=1e4)return (n/1e3).toFixed(n>=1e5?0:1).replace(/\.0$/,'')+'K';return n.toLocaleString('en-IN')}
 function load(){const s=seed();try{const o=JSON.parse(localStorage.getItem(KEY));if(!o)return s;
 const n={...s,...o,settings:{...s.settings,...o.settings,name:o.settings?.name||o.settings?.creatorName||s.settings.name}};
 n.view=TT[o.view]?o.view:'home';
