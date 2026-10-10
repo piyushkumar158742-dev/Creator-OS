@@ -115,3 +115,19 @@
 @keyframes stage-ring{0%,100%{box-shadow:0 0 0 3px color-mix(in srgb,var(--stage) 12%,transparent)}50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--stage) 5%,transparent)}}
 @keyframes stage-settle{from{opacity:.7;transform:translateY(2px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.video-tile,.stage-step,.stage-step.current span{animation:none!important}}
+
+/* Forward-only pipeline: progress line fills into the next completed stage */
+.video-stage-flow{--progress-ink:var(--blue)}
+.stage-step:before{background:var(--ln)!important;overflow:hidden}
+.stage-step:after{content:"";position:absolute;z-index:0;top:23px;left:calc(50% + 19px);width:calc(100% - 28px);height:2px;background:var(--progress-ink);transform:scaleX(0);transform-origin:left;transition:transform .42s cubic-bezier(.2,.75,.25,1);pointer-events:none}
+.stage-step.passed:after{transform:scaleX(1)}
+.stage-step.passed span{animation:stage-arrive .42s cubic-bezier(.2,.85,.25,1.25) both}
+.stage-step.current span{animation:stage-arrive .48s cubic-bezier(.2,.85,.25,1.25) both,stage-ring 2.4s ease-in-out .48s infinite}
+.stage-step.current small{animation:stage-label-arrive .32s ease-out both}
+@keyframes stage-arrive{0%{transform:scale(.78);box-shadow:0 0 0 0 color-mix(in srgb,var(--stage) 0%,transparent)}58%{transform:scale(1.16);box-shadow:0 0 0 7px color-mix(in srgb,var(--stage) 16%,transparent)}100%{transform:scale(1);box-shadow:0 0 0 3px color-mix(in srgb,var(--stage) 10%,transparent)}}
+@keyframes stage-label-arrive{from{opacity:.45;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.stage-step:disabled{cursor:not-allowed;opacity:1}
+.stage-step:disabled:hover{transform:none}
+.stage-step:disabled:hover span{transform:none;border-color:var(--ln)}
+@media(max-width:480px){.stage-step:after{display:none}}
+@media(prefers-reduced-motion:reduce){.stage-step:after,.stage-step.passed span,.stage-step.current span,.stage-step.current small{animation:none!important;transition:none!important}}
