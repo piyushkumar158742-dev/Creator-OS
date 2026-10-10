@@ -66,3 +66,10 @@ input,select,textarea{transition:border-color var(--motion-base),box-shadow var(
 @keyframes veil-in{from{background:#10182800}to{background:#10182899}}
 @keyframes toast-in{from{opacity:0;transform:translate(-50%,8px) scale(.98)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Hide scrollbar chrome everywhere, including scrollable dialogs and nested panels.
+   Scrolling remains enabled by wheel, trackpad, touch, and keyboard. */
+*,*::before,*::after{scrollbar-width:none!important;-ms-overflow-style:none!important}
+*::-webkit-scrollbar,*::-webkit-scrollbar-track,*::-webkit-scrollbar-thumb{display:none!important;width:0!important;height:0!important;background:transparent!important}
+.sheet,.modal,.tl,.tl-in,.wrap,#main{scrollbar-width:none!important;-ms-overflow-style:none!important}
+.sheet::-webkit-scrollbar,.modal::-webkit-scrollbar,.tl::-webkit-scrollbar,.tl-in::-webkit-scrollbar,.wrap::-webkit-scrollbar,#main::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
