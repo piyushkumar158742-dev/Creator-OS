@@ -14,3 +14,33 @@ textarea{min-height:90px;resize:vertical}.f{display:grid;gap:14px}.acts{display:
 .sheet{background:#fff;border-radius:8px;width:min(480px,100%);max-height:90vh;overflow:auto;padding:20px;animation:pop .16s ease-out}.sheet h3{font-size:16px;margin-bottom:14px}
 @keyframes pop{from{transform:translateY(10px);opacity:0}}
 #toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:60;max-width:90vw}#toast.on{opacity:1}
+
+
+/* Premium modal and form system */
+.modal{padding:24px;background:rgba(12,18,35,.62);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.sheet{position:relative;width:min(540px,100%);max-height:min(88vh,820px);overflow:auto;padding:30px;background:linear-gradient(145deg,#fff 0%,#fbfcff 100%);border:1px solid rgba(255,255,255,.85);border-radius:18px;box-shadow:0 28px 90px rgba(9,16,38,.28),0 4px 16px rgba(9,16,38,.08);animation:premium-sheet-in .28s cubic-bezier(.2,.8,.2,1) both}
+.sheet:before{content:"";position:absolute;top:0;left:30px;right:30px;height:3px;border-radius:0 0 5px 5px;background:linear-gradient(90deg,var(--blue),#9b8cff 58%,#f27ca3)}
+.sheet h3{font-family:Unbounded,Figtree,sans-serif;font-size:19px;line-height:1.35;letter-spacing:-.045em;margin:0 0 24px;padding-top:3px}
+.sheet .f{gap:17px}
+.sheet .f>label{gap:8px;color:#343d52;font-size:12px;font-weight:750;letter-spacing:.005em}
+.sheet input:not([type=file]),.sheet select,.sheet textarea{min-width:0;width:100%;padding:12px 14px;border:1px solid #dce1ec;border-radius:10px;background:#fff;color:#172033;font-size:14px;font-weight:500;box-shadow:0 1px 2px rgba(16,24,40,.025);transition:border-color .2s,box-shadow .2s,background .2s,transform .2s}
+.sheet input:not([type=file]):hover,.sheet select:hover,.sheet textarea:hover{border-color:#bdc7dc}
+.sheet input:not([type=file]):focus,.sheet select:focus,.sheet textarea:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 4px rgba(47,75,255,.11);background:#fff}
+.sheet input::placeholder,.sheet textarea::placeholder{color:#9aa3b5}
+.sheet select{appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23667085' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.sheet textarea{min-height:104px;line-height:1.55;resize:vertical}
+.sheet input[type=file]{width:100%;min-width:0;padding:8px;border:1px dashed #cbd3e2;border-radius:10px;background:#f8f9fd;color:#667085;font-size:12px;cursor:pointer}
+.sheet input[type=file]::file-selector-button{border:0;border-radius:7px;background:#e9edff;color:#263fd4;padding:9px 12px;margin-right:10px;font-weight:750;cursor:pointer;transition:background .2s}
+.sheet input[type=file]::file-selector-button:hover{background:#dce3ff}
+.sheet #pv{margin:0 0 2px;border-radius:12px;overflow:hidden;background:#f0f2f8}
+.sheet #pv .gt,.sheet #pv .th{border-radius:12px}
+.sheet .acts{gap:10px;align-items:center;margin-top:8px;padding-top:18px;border-top:1px solid #edf0f6}
+.sheet .acts .btn{min-height:42px;padding:10px 17px;border-radius:10px;font-size:13px;font-weight:750}
+.sheet .acts .btn.ghost{background:#fff;border-color:#dce1ec}
+.sheet .acts .btn.ghost:hover{background:#f5f6fb}
+.sheet .acts .btn:not(.ghost):not(.del){box-shadow:0 5px 12px rgba(47,75,255,.18)}
+.sheet .acts .btn:not(.ghost):not(.del):hover{box-shadow:0 8px 18px rgba(47,75,255,.25);transform:translateY(-1px)}
+.sheet .acts .btn.del{margin-right:auto}
+@keyframes premium-sheet-in{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:600px){.modal{padding:12px;align-items:end}.sheet{width:100%;max-height:88dvh;padding:25px 20px 20px;border-radius:18px 18px 14px 14px}.sheet:before{left:20px;right:20px}.sheet h3{font-size:17px;margin-bottom:21px}.sheet .f{gap:15px}.sheet .acts{position:sticky;bottom:-20px;background:linear-gradient(180deg,rgba(251,252,255,.92),#fbfcff 24%);padding:16px 0 3px;margin-top:2px}.sheet .acts .btn{padding:10px 13px}}
+@media(prefers-reduced-motion:reduce){.sheet,.sheet input,.sheet select,.sheet textarea,.sheet .acts .btn{animation:none!important;transition:none!important}}
