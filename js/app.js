@@ -14,10 +14,11 @@ videos:[{id:1,title:'I Spent 50 Hours In VR',status:'Editing',views:'1.2M',notes
 tasks:[{id:1,title:'Review sponsor contract',completed:false,priority:'high'},{id:2,title:'Record B-roll for VR video',completed:true,priority:'medium'},{id:3,title:'Send thumbnail drafts to designer',completed:false,priority:'low'}],
 brands:[{id:1,name:'TechCorp',status:'Negotiating',amount:5000,email:''},{id:2,name:'VPN Secure',status:'Active',amount:3500,email:''},{id:3,name:'EnergyDrink',status:'Completed',amount:2000,email:''}],
 events:[{id:1,title:'Publish VR video',date:d(3),time:'10:00',type:'video'},{id:2,title:'TechCorp sponsor call',date:d(6),time:'14:00',type:'brand'}]}}
+function cleanViews(value){const raw=String(value??'').trim();if(!raw||raw==='-')return '';if(/^\d+$/.test(raw))return raw;const m=raw.match(/^([\d.]+)\s*([KMB])$/i);if(m){const n=Number(m[1])*({K:1e3,M:1e6,B:1e9}[m[2].toUpperCase()]);return Number.isFinite(n)?String(Math.round(n)):''}return raw}
 function load(){const s=seed();try{const o=JSON.parse(localStorage.getItem(KEY));if(!o)return s;
 const n={...s,...o,settings:{...s.settings,...o.settings,name:o.settings?.name||o.settings?.creatorName||s.settings.name}};
 n.view=TT[o.view]?o.view:'home';
-n.videos=(n.videos||[]).map(v=>({...v,status:ST.includes(v.status)?v.status:'Idea',views:v.views==='-'?'':v.views||''}));
+n.videos=(n.videos||[]).map(v=>({...v,status:ST.includes(v.status)?v.status:'Idea',views:cleanViews(v.views)}));
 n.brands=(n.brands||[]).map(b=>({...b,amount:Number(String(b.amount).replace(/[^0-9.]/g,''))||0}));
 n.events=(n.events||[]).filter(e=>/^\d{4}-\d\d-\d\d$/.test(e.date||''));return n}catch(e){return s}}
 let S=load(),cal=(d=>({y:d.getFullYear(),m:d.getMonth(),sel:iso(d)}))(new Date()),pend=null;
@@ -26,5 +27,5 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clea
 function ask(h){$('#sheet').innerHTML=h;$('#modal').hidden=false;$('#sheet input,#sheet select,#sheet textarea')?.focus()}
 function shut(){$('#modal').hidden=true;pend=null}
 const th=v=>`<div class="th"><div class="gt tone-${Math.abs(Number(v.id)||0)%4}"><span class="gt-kicker">VYRO / VIDEO</span><span class="gt-icon" aria-hidden="true">${EM[Math.abs(Number(v.id)||0)%8]}</span><span class="gt-title">${esc(v.title||'New video')}</span>${v.thumb?`<span class="gt-custom" title="Custom thumbnail attached"><img src="${esc(v.thumb)}" alt="Custom thumbnail preview"></span>`:'' }<span class="gt-index">${String(Math.abs(Number(v.id)||0)%99+1).padStart(2,'0')}</span></div></div>`;
-const done=(fn)=>{save();shut();draw();fn&&toast(fn)};
+const done=(fn)=>{if(!save())return;shut();draw();fn&&toast(fn)};
 const V={};
