@@ -8,8 +8,8 @@ V.home=()=>{const{videos:v,brands:b,tasks}=S;
 const latest=(tasks||[]).slice().reverse().slice(0,3);
 return`<h2 class="hi">${esc(S.settings.name)}'s workspace</h2>
 <section class="strip" aria-label="Channel overview">
-  <div><b>452K</b><span>Subscribers</span></div>
-  <div><b>8.4M</b><span>Total views</span></div>
+  <div><b>—</b><span>Subscribers</span><small class="stat-note">Connect YouTube to sync</small></div>
+  <div><b>—</b><span>Total views</span><small class="stat-note">Connect YouTube to sync</small></div>
   <div><b>${b.length}</b><span>Brands</span></div>
   <div><b>${v.length}</b><span>Videos</span></div>
 </section>
