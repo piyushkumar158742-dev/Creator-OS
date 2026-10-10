@@ -145,3 +145,12 @@
 @keyframes stage-arrival-ripple{0%{opacity:.7;transform:scale(.7)}100%{opacity:0;transform:scale(1.45)}}
 @media(max-width:480px){.stage-step:before,.stage-step:after{display:none}}
 @media(prefers-reduced-motion:reduce){.stage-step.passed:after,.stage-step.current span:after{animation:none!important;transition:none!important}}
+
+
+/* Generated thumbnails: simple title, with the emoji treated as a soft background motif */
+.video-tile .gt,.video-detail-thumb .gt,#pv .gt{position:relative;isolation:isolate;display:flex;align-items:flex-end;justify-content:flex-start;overflow:hidden;padding:clamp(12px,3vw,22px);background:#e8ebf3!important;color:#172033}
+.gt:before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(135deg,#eef0f7,#dce2f0)}
+.gt:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#17203318,transparent 70%)}
+.gt-icon{position:absolute;right:-.06em;top:-.22em;font-size:clamp(72px,14vw,150px);line-height:1;opacity:.22;filter:saturate(.8);transform:rotate(-9deg);pointer-events:none;user-select:none}
+.gt-title{position:relative;z-index:1;max-width:88%;font-size:clamp(13px,2vw,23px);font-weight:800;line-height:1.12;letter-spacing:-.045em;overflow-wrap:anywhere;text-wrap:balance}
+@media(max-width:650px){.video-tile .gt{padding:11px}.video-tile .gt-icon{font-size:76px}.video-tile .gt-title{font-size:13px}}
