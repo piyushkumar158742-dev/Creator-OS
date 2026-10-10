@@ -12,14 +12,14 @@ ask(`<div class="video-detail-head"><div class="video-detail-thumb">${th(v)}</di
 function vstage(id,i){const v=S.videos.find(x=>x.id===id);if(!v||!ST[i])return;const current=ST.indexOf(v.status);if(i<current){toast('Pipeline stages can only move forward.');return}if(i===current)return;v.status=ST[i];save();vdetail(id);draw()}
 function vm(id){const v=id?S.videos.find(x=>x.id===id):{id:uid(),status:'Idea'};if(!v)return;pend=null;
 ask(`<h3>${id?'Edit video':'New video'}</h3><form class="f" onsubmit="vsave(event,${id||0})">${id||v.thumb?`<div id="pv">${th(v)}</div>`:`<div id="pv" class="new-video-preview" hidden></div>`}
-<label>Title<input name="title" required maxlength="120" value="${esc(v.title||'')}"></label>
+<label>Title<input name="title" required maxlength="100" value="${esc(v.title||'')}"></label>
 <label>Stage<select name="status">${ST.map(s=>`<option ${s===v.status?'selected':''}>${s}</option>`).join('')}</select></label>
-<label>Views (once published)<input name="views" value="${esc(v.views||'')}" placeholder="e.g. 12K"></label>
+<label>Views (once published)<input name="views" value="${esc(v.views||'')}" inputmode="numeric" maxlength="12" pattern="[0-9]{1,12}" placeholder="e.g. 12000"></label>
 <label>Thumbnail<input type="file" accept="image/*" onchange="vimg(this)"></label>
 <label>Script and notes<textarea name="notes">${esc(v.notes||'')}</textarea></label>
 <div class="acts">${id?`<button type="button" class="btn del" onclick="vdel(${id})">Delete</button><span class="sp"></span>`:''}<button type="button" class="btn ghost" onclick="shut()">Cancel</button><button class="btn">${id?'Save changes':'Create video'}</button></div></form>`)}
 function vimg(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,640/im.width),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);pend=c.toDataURL('image/jpeg',.72);$('#pv').hidden=false;$('#pv').innerHTML=th({thumb:pend})};im.onerror=()=>toast('That file is not a readable image.');im.src=r.result};r.readAsDataURL(f)}
-function vsave(e,id){e.preventDefault();const f=new FormData(e.target),d={title:f.get('title').trim(),status:f.get('status'),views:f.get('views').trim(),notes:f.get('notes')};
+function vsave(e,id){e.preventDefault();const f=new FormData(e.target),title=String(f.get('title')||'').trim(),views=String(f.get('views')||'').trim();if(!title||title.length>100){toast('Title must be between 1 and 100 characters.');return}if(views&&(!/^\d+$/.test(views)||views.length>12)){toast('Views must contain up to 12 digits only.');return}const d={title,status:f.get('status'),views,notes:f.get('notes')};
 if(id){const v=S.videos.find(x=>x.id===id);Object.assign(v,d);if(pend)v.thumb=pend}else S.videos.unshift({id:uid(),...d,...(pend?{thumb:pend}:{})});done(id?'Changes saved':'Video created')}
 function vdel(id){if(confirm('Delete this video?')){S.videos=S.videos.filter(v=>v.id!==id);done('Video deleted')}}
 function vmove(id,i){const v=S.videos.find(x=>x.id===id);if(v&&ST[i]){v.status=ST[i];save();draw()}}
