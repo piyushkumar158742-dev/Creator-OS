@@ -247,3 +247,29 @@
 .sheet:has(.video-detail-head) .video-detail-grid div{padding:12px;min-height:70px}
 .sheet:has(.video-detail-head)>.acts{padding:13px 18px;gap:8px;flex-wrap:wrap}
 }
+
+/* Final polish — preserve the existing modal and thumbnail proportions */
+.sheet:has(.video-detail-head){width:min(680px,calc(100vw - 48px));margin:32px auto;max-height:calc(100dvh - 64px);border:1px solid #e7eaf2;box-shadow:0 28px 90px rgba(14,22,46,.24)}
+.sheet:has(.video-detail-head) .video-detail-head{padding:24px 28px 25px;gap:17px;background:linear-gradient(180deg,#fbfcff 0%,#fff 100%)}
+.sheet:has(.video-detail-head) .video-detail-thumb{aspect-ratio:16/6;width:100%;max-width:none;border-radius:12px;box-shadow:0 8px 22px rgba(22,34,72,.07)}
+.sheet:has(.video-detail-head) .video-detail-thumb .gt,.sheet:has(.video-detail-head) .video-detail-thumb .th{border-radius:12px!important}
+.sheet:has(.video-detail-head) .video-detail-title{padding:0 2px}
+.sheet:has(.video-detail-head) .video-detail-title h3{font-size:clamp(22px,2.5vw,28px);line-height:1.2;letter-spacing:-.04em}
+.sheet:has(.video-detail-head) .video-detail-section{padding:24px 28px}
+.sheet:has(.video-detail-head) .video-detail-section h4{margin-bottom:17px;font-size:10px}
+.sheet:has(.video-detail-head) .video-stage-flow{gap:9px}
+.sheet:has(.video-detail-head) .stage-step{min-height:76px;padding:11px 4px;background:#fafbfe;border-color:#edf0f6}
+.sheet:has(.video-detail-head) .stage-step.current{background:#f3f5ff}
+.sheet:has(.video-detail-head) .video-detail-grid{gap:12px}
+.sheet:has(.video-detail-head) .video-detail-grid div{min-height:82px;padding:16px;border-radius:12px}
+.sheet:has(.video-detail-head) .video-notes{padding:17px 18px;border-radius:12px}
+.sheet:has(.video-detail-head)>.acts{padding:16px 28px;gap:10px}
+@media(max-width:600px){
+.sheet:has(.video-detail-head){width:calc(100vw - 24px);margin:12px auto;max-height:calc(100dvh - 24px)}
+.sheet:has(.video-detail-head) .video-detail-head{padding:18px 18px 20px;gap:15px}
+.sheet:has(.video-detail-head) .video-detail-thumb{aspect-ratio:16/8}
+.sheet:has(.video-detail-head) .video-detail-section{padding:20px 18px}
+.sheet:has(.video-detail-head) .stage-step{min-height:72px}
+.sheet:has(.video-detail-head) .video-detail-grid div{padding:13px;min-height:74px}
+.sheet:has(.video-detail-head)>.acts{padding:13px 18px}
+}
