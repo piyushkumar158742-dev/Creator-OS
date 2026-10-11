@@ -3,16 +3,16 @@
 <title>Vyro — Creator OS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/global.css?v=24">
-<link rel="stylesheet" href="css/components.css?v=24">
-<link rel="stylesheet" href="css/dashboard.css?v=24">
-<link rel="stylesheet" href="css/videos.css?v=24">
-<link rel="stylesheet" href="css/brands.css?v=24">
-<link rel="stylesheet" href="css/calendar.css?v=24">
-<link rel="stylesheet" href="css/settings.css?v=24">
-<link rel="stylesheet" href="css/tasks.css?v=24"><link rel="stylesheet" href="css/audit.css?v=4"></head>
+<link rel="stylesheet" href="css/global.css?v=25">
+<link rel="stylesheet" href="css/components.css?v=25">
+<link rel="stylesheet" href="css/dashboard.css?v=25">
+<link rel="stylesheet" href="css/videos.css?v=25">
+<link rel="stylesheet" href="css/brands.css?v=25">
+<link rel="stylesheet" href="css/calendar.css?v=25">
+<link rel="stylesheet" href="css/settings.css?v=25">
+<link rel="stylesheet" href="css/tasks.css?v=25"><link rel="stylesheet" href="css/audit.css?v=5"></head>
 <body><div class="app">
-<nav class="rail" aria-label="Main"><div class="logo">V<i></i></div>
+<nav class="rail" aria-label="Main"><button class="logo" type="button" onclick="go('home')" aria-label="Go to dashboard" title="Dashboard">V<i></i></button>
 <button data-nav="home" onclick="go('home')"><b>◐</b>Desk</button>
 <button data-nav="videos" onclick="go('videos')"><b>▥</b>Pipeline</button>
 <button data-nav="tasks" onclick="go('tasks')"><b>✓</b>To-do</button>
@@ -22,12 +22,12 @@
 <div class="wrap"><header class="top"><h1 id="title">Desk</h1><time id="clock"></time><button id="theme-toggle" class="btn ghost theme-toggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" title="Switch theme">◐</button><button class="btn" onclick="vm()">+ New video</button></header>
 <main id="main"></main></div></div>
 <div id="modal" class="modal" hidden onclick="if(event.target===this)shut()"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
-<div id="toast" role="status"></div><script src="js/firebase.js?v=24" defer></script>
-<script src="js/app.js?v=24" defer></script>
-<script src="js/dashboard.js?v=24" defer></script>
-<script src="js/videos.js?v=24" defer></script>
-<script src="js/tasks.js?v=24" defer></script>
-<script src="js/brands.js?v=24" defer></script>
-<script src="js/calendar.js?v=24" defer></script>
-<script src="js/settings.js?v=24" defer></script>
-<script src="js/theme.js?v=1" defer></script><script src="js/navigation.js?v=24" defer></script></body></html>
+<div id="toast" role="status"></div><script src="js/firebase.js?v=25" defer></script>
+<script src="js/app.js?v=25" defer></script>
+<script src="js/dashboard.js?v=25" defer></script>
+<script src="js/videos.js?v=25" defer></script>
+<script src="js/tasks.js?v=25" defer></script>
+<script src="js/brands.js?v=25" defer></script>
+<script src="js/calendar.js?v=25" defer></script>
+<script src="js/settings.js?v=25" defer></script>
+<script src="js/theme.js?v=1" defer></script><script src="js/navigation.js?v=25" defer></script></body></html>
