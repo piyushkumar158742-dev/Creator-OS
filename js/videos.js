@@ -20,7 +20,7 @@ ask(`<div class="form-heading"><span class="form-mark">✳</span><div><span clas
 function vimg(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,640/im.width),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);pend=c.toDataURL('image/jpeg',.72);$('#pv').hidden=false;$('#pv').innerHTML=th({thumb:pend})};im.onerror=()=>toast('That file is not a readable image.');im.src=r.result};r.readAsDataURL(f)}
 function vsave(e,id){e.preventDefault();const f=new FormData(e.target),title=String(f.get('title')||'').trim(),views=String(f.get('views')||'').trim();if(!title||title.length>50){toast('Title must be between 1 and 50 characters.');return}if(views&&(!/^\d+$/.test(views)||views.length>8)){toast('Views must contain up to 8 digits only.');return}const d={title,status:f.get('status'),views,notes:f.get('notes')};
 if(id){const v=S.videos.find(x=>x.id===id);Object.assign(v,d);if(pend)v.thumb=pend}else S.videos.unshift({id:uid(),...d,...(pend?{thumb:pend}:{})});done(id?'Changes saved':'Video created')}
-function vdel(id){if(confirm('Delete this video?')){S.videos=S.videos.filter(v=>v.id!==id);done('Video deleted')}}
+function vdel(id){confirmUI('Delete video?','This video and its saved notes will be removed from your workspace.','Delete video',()=>{S.videos=S.videos.filter(v=>v.id!==id);done('Video deleted')})}
 function vmove(id,i){const v=S.videos.find(x=>x.id===id);if(v&&ST[i]){v.status=ST[i];save();draw()}}
 function drop(e,s){e.preventDefault();const v=S.videos.find(x=>x.id===Number(e.dataTransfer.getData('text/plain')));if(v){v.status=s;save()}draw()}
 
