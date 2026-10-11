@@ -308,3 +308,21 @@
 .sheet:has(.video-detail-head) .stage-step.current{background:color-mix(in srgb,var(--stage) 10%,var(--pan))!important;border-color:var(--stage)!important;box-shadow:0 3px 10px color-mix(in srgb,var(--stage) 10%,transparent)}
 @media(max-width:600px){.sheet:has(.video-detail-head) .stage-step{flex:1 1 calc(33.333% - 8px)!important;min-width:0!important;max-width:calc(33.333% - 6px)!important;min-height:74px!important}}
 @media(max-width:380px){.sheet:has(.video-detail-head) .stage-step{flex-basis:calc(50% - 5px)!important;max-width:calc(50% - 4px)!important}}
+
+/* Serpentine pipeline: rows alternate direction and connect like a winding route. */
+.sheet:has(.video-detail-head) .video-stage-flow{display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;gap:0!important;overflow:visible!important;padding:10px 2px 12px!important;width:100%;max-width:100%}
+.sheet:has(.video-detail-head) .stage-flow-row{position:relative;display:flex;flex-direction:row;align-items:stretch;justify-content:space-between;gap:8px;width:100%;min-width:0}
+.sheet:has(.video-detail-head) .stage-flow-row.reverse{flex-direction:row-reverse}
+.sheet:has(.video-detail-head) .stage-flow-row:before{content:"";position:absolute;left:7%;right:7%;top:25px;height:3px;border-radius:4px;background:linear-gradient(90deg,#8e9bff,#4f74ff,#df85c8);opacity:.9;pointer-events:none}
+.sheet:has(.video-detail-head) .stage-flow-row .stage-step{position:relative;z-index:1;flex:1 1 0!important;width:auto!important;min-width:0!important;max-width:none!important;min-height:78px!important;box-sizing:border-box!important;padding:10px 5px!important;gap:8px!important;border:1px solid var(--ln)!important;border-radius:13px!important;background:var(--pan)!important;overflow:hidden!important}
+.sheet:has(.video-detail-head) .stage-flow-row .stage-step span{width:30px!important;height:30px!important;flex:0 0 30px!important;font-size:11px!important;background:var(--pan)!important;box-shadow:0 0 0 3px var(--pan)!important}
+.sheet:has(.video-detail-head) .stage-flow-row .stage-step small{display:block!important;width:100%!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;word-break:normal!important;overflow-wrap:normal!important;font-size:10px!important;line-height:1.25!important}
+.sheet:has(.video-detail-head) .stage-flow-row .stage-step.current{background:color-mix(in srgb,var(--stage) 11%,var(--pan))!important;border-color:var(--stage)!important;box-shadow:0 3px 12px color-mix(in srgb,var(--stage) 14%,transparent)}
+.sheet:has(.video-detail-head) .stage-flow-turn{position:relative;height:24px;width:100%;flex:0 0 24px}
+.sheet:has(.video-detail-head) .stage-flow-turn span{position:absolute;top:0;bottom:0;width:2px;background:linear-gradient(#4f74ff,#8e9bff);border-radius:4px}
+.sheet:has(.video-detail-head) .stage-flow-turn:after{content:"";position:absolute;top:0;width:7%;height:2px;background:#4f74ff}
+.sheet:has(.video-detail-head) .stage-flow-turn.turn-right span{right:7%}
+.sheet:has(.video-detail-head) .stage-flow-turn.turn-right:after{right:7%;width:45%}
+.sheet:has(.video-detail-head) .stage-flow-turn.turn-left span{left:7%}
+.sheet:has(.video-detail-head) .stage-flow-turn.turn-left:after{left:7%;width:45%}
+@media(max-width:600px){.sheet:has(.video-detail-head) .stage-flow-row{gap:6px}.sheet:has(.video-detail-head) .stage-flow-row .stage-step{min-height:72px!important;padding:8px 4px!important}.sheet:has(.video-detail-head) .stage-flow-row:before{top:23px}}
