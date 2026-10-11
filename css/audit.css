@@ -150,3 +150,16 @@ input,select,textarea{min-width:0;max-width:100%;border-radius:9px}
 .cal .panel>header h3{font-size:12px;flex:1 1 100%}
 .cal .nav2{width:100%;justify-content:flex-end}
 }
+
+/* Requested final UI details */
+#toast{position:fixed!important;left:50%!important;bottom:24px!important;transform:translateX(-50%)!important;z-index:1000!important}
+#toast.on{animation:toast-in 220ms var(--ease-spring) both!important}
+:root[data-theme="dark"] #toast{background:#202b40!important;color:#f4f7ff!important;border-color:#52617f!important}
+.tag,.priority-pill,.priority{text-transform:capitalize}
+.logo{display:block!important;width:auto!important;min-width:0!important;height:auto!important;margin-bottom:18px!important;padding:0 8px 0 0!important;background:transparent!important;color:#fff!important;border:0!important}
+.logo i{pointer-events:none}
+.pipeline-picker-options{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pipeline-manager-row input{font-size:13px}
+:root[data-theme="dark"] .pipeline-manager-row .btn.ghost{background:#172238;color:#e2e9f8;border-color:#394762}
+:root[data-theme="dark"] .pipeline-manager-row .btn.del{color:#ff9eb4;background:#321e30}
+@media(max-width:600px){.pipeline-picker-options{grid-template-columns:repeat(2,minmax(0,1fr))}}
