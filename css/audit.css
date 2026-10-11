@@ -118,3 +118,35 @@ input,select,textarea{min-width:0;max-width:100%;border-radius:9px}
 #sheet.sheet>.f:not(.video-form):not(.standard-form) .acts{flex-wrap:wrap}
 }
 @media(prefers-reduced-motion:reduce){#sheet.sheet{animation:none!important}}
+
+/* Screenshot-driven fixes: no bright footer strips in dark mode, keep all form content inset */
+#sheet.sheet>.standard-form>.acts{right:auto;left:auto;bottom:0;margin:2px 0 0;padding:16px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.94),#fff 28%);border-top:1px solid #e9edf4}
+#sheet.sheet>.f>.acts{min-height:0;background:transparent}
+#sheet.sheet>.f>.acts .btn{flex:0 0 auto}
+#sheet.sheet>.f>.acts .sp{flex:1;min-width:10px}
+:root[data-theme="dark"] #sheet.sheet>.standard-form>.acts{background:linear-gradient(180deg,rgba(17,26,43,.94),#111a2b 28%);border-color:#2b3650}
+:root[data-theme="dark"] #sheet.sheet>.f>.acts{background:transparent}
+:root[data-theme="dark"] #sheet.sheet>.standard-form>.acts .btn.ghost{background:#1a263d;color:#e6edfb;border-color:#3b4964}
+:root[data-theme="dark"] #sheet.sheet>.standard-form>.acts .btn:not(.ghost):not(.del){background:#7787ff;color:#fff}
+:root[data-theme="dark"] #sheet.sheet>.standard-form>.acts .btn.del{background:#321e30;color:#ff9eb4}
+:root[data-theme="dark"] #sheet.sheet>.standard-form>.acts .btn.del:hover{background:#482039}
+:root[data-theme="dark"] #sheet.sheet .video-detail-grid span,:root[data-theme="dark"] #sheet.sheet .video-detail-grid label{color:#a8b5cd}
+:root[data-theme="dark"] #sheet.sheet .video-detail-grid strong{color:#e7edfb}
+:root[data-theme="dark"] #sheet.sheet .video-detail-section>h4,:root[data-theme="dark"] #sheet.sheet .video-detail-section>p{color:#a9b7d0}
+:root[data-theme="dark"] #sheet.sheet .video-notes{color:#e7edfb}
+:root[data-theme="dark"] .cal .panel>header{background:#171f32;color:#edf1fb;border-color:#2a354c}
+:root[data-theme="dark"] .cal .nav2{display:flex;align-items:center;gap:6px;flex-shrink:0}
+:root[data-theme="dark"] .cal .nav2 button{min-width:34px;min-height:32px;padding:5px 8px;background:#1b2740;border:1px solid #34415b;border-radius:8px;color:#e7edfb;white-space:nowrap}
+:root[data-theme="dark"] .cal .nav2 button:hover{background:#293653;border-color:#6575a2}
+.cal .panel>header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cal .panel>header h3{min-width:0;overflow-wrap:anywhere}
+.cal .nav2{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.cal .nav2 button{min-height:32px;padding:5px 9px;border-radius:8px;white-space:nowrap}
+.cal .grid,.cal .calendar-grid{min-width:0}
+@media(max-width:600px){
+#sheet.sheet>.standard-form>.acts{bottom:-22px;padding-top:13px}
+#sheet.sheet>.standard-form .acts .btn{min-height:40px;padding:9px 12px}
+.cal .panel>header{align-items:flex-start;gap:9px}
+.cal .panel>header h3{font-size:12px;flex:1 1 100%}
+.cal .nav2{width:100%;justify-content:flex-end}
+}
