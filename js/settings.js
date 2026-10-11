@@ -13,4 +13,4 @@ ${[['₹','INR'],['$','USD'],['€','EUR'],['£','GBP']].map(([symbol,code])=>`<
 function scurrency(symbol){const input=$('#sc');if(input)input.value=symbol;document.querySelectorAll('.currency-choice').forEach(b=>{const on=b.dataset.currency===symbol;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',String(on))})}
 function ssave(){const name=$('#sn').value.trim().slice(0,20)||'Creator';S.settings.name=name;S.settings.cur=$('#sc').value||'₹';save();draw();toast('Settings saved')}
 function sexp(){const a=document.createElement('a');const url=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));a.href=url;a.download='vyro-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-function srst(){if(confirm('Erase all videos, tasks, deals and events on this device?')){S=seed();save();go('home');toast('Workspace reset')}}
+function srst(){confirmUI('Reset your workspace?','This will erase all videos, tasks, deals and events saved on this device. This cannot be undone.','Reset workspace',()=>{S=seed();save();go('home');toast('Workspace reset')})}
