@@ -295,3 +295,16 @@
 .sheet:has(.video-detail-head) .stage-step small{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;overflow-wrap:normal!important;word-break:normal!important;font-size:10px!important;line-height:1.25!important}
 .sheet:has(.video-detail-head) .stage-step.current{background:color-mix(in srgb,var(--stage) 10%,var(--pan))!important;border-color:var(--stage)!important;box-shadow:0 3px 10px color-mix(in srgb,var(--stage) 10%,transparent)}
 @media(max-width:600px){.sheet:has(.video-detail-head) .stage-step{flex-basis:72px!important;width:72px!important;min-width:72px!important;max-width:72px!important;min-height:74px!important}}
+
+/* Production pipeline should wrap into balanced rows, not force horizontal scrolling. */
+.sheet:has(.video-detail-head) .video-stage-flow{display:flex!important;flex-wrap:wrap!important;align-items:stretch!important;gap:8px!important;width:100%;max-width:100%;padding:8px 2px 12px!important;overflow:visible!important;scroll-snap-type:none!important}
+.sheet:has(.video-detail-head) .video-stage-flow::-webkit-scrollbar{display:none!important}
+.sheet:has(.video-detail-head) .stage-step{flex:1 1 76px!important;width:auto!important;min-width:68px!important;max-width:calc(25% - 7px)!important;min-height:78px!important;box-sizing:border-box!important;padding:10px 5px!important;gap:8px!important;border:1px solid var(--ln)!important;border-radius:12px!important;background:var(--pan)!important;overflow:visible!important;scroll-snap-align:none!important;transform:none!important}
+.sheet:has(.video-detail-head) .stage-step:before{top:24px!important;left:calc(50% + 15px)!important;width:calc(100% + 8px)!important;height:2px!important;background:var(--ln)!important;z-index:0!important;pointer-events:none}
+.sheet:has(.video-detail-head) .stage-step.passed:before{background:var(--stage)!important}
+.sheet:has(.video-detail-head) .stage-step:last-child:before{display:none!important}
+.sheet:has(.video-detail-head) .stage-step span{width:30px!important;height:30px!important;flex:0 0 30px!important;font-size:11px!important}
+.sheet:has(.video-detail-head) .stage-step small{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;overflow-wrap:normal!important;word-break:normal!important;font-size:10px!important;line-height:1.25!important}
+.sheet:has(.video-detail-head) .stage-step.current{background:color-mix(in srgb,var(--stage) 10%,var(--pan))!important;border-color:var(--stage)!important;box-shadow:0 3px 10px color-mix(in srgb,var(--stage) 10%,transparent)}
+@media(max-width:600px){.sheet:has(.video-detail-head) .stage-step{flex:1 1 calc(33.333% - 8px)!important;min-width:0!important;max-width:calc(33.333% - 6px)!important;min-height:74px!important}}
+@media(max-width:380px){.sheet:has(.video-detail-head) .stage-step{flex-basis:calc(50% - 5px)!important;max-width:calc(50% - 4px)!important}}
