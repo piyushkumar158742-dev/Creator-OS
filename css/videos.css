@@ -273,3 +273,13 @@
 .sheet:has(.video-detail-head) .video-detail-grid div{padding:13px;min-height:74px}
 .sheet:has(.video-detail-head)>.acts{padding:13px 18px}
 }
+
+/* Uploaded thumbnails are the actual cover image, never a small side preview */
+.th-has-upload{position:relative!important;display:block!important;width:100%!important;height:100%!important;min-height:0!important;aspect-ratio:16/9!important;overflow:hidden!important;background:#111827!important;border:0!important;border-radius:inherit!important}
+.gt-uploaded-main{position:absolute!important;inset:0!important;display:block!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:cover!important;object-position:center!important;border:0!important;border-radius:inherit!important}
+.gt-uploaded-shade{position:absolute!important;inset:35% 0 0!important;background:linear-gradient(180deg,transparent 0%,rgba(5,10,24,.82) 100%)!important;pointer-events:none!important}
+.gt-uploaded-title{position:absolute!important;left:14px!important;right:14px!important;bottom:12px!important;z-index:2!important;color:#fff!important;font-size:clamp(11px,1.3vw,16px)!important;font-weight:800!important;line-height:1.15!important;letter-spacing:-.025em!important;text-align:left!important;text-shadow:0 1px 5px #0008!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important;overflow-wrap:anywhere!important}
+.video-tile-thumb .th-has-upload{aspect-ratio:16/9!important}
+.video-detail-thumb .th-has-upload{width:100%!important;height:100%!important;min-height:0!important;aspect-ratio:16/6!important;border-radius:12px!important}
+#pv .th-has-upload{width:100%!important;aspect-ratio:16/9!important;border-radius:10px!important}
+@media(max-width:600px){.gt-uploaded-title{left:10px!important;right:10px!important;bottom:9px!important;font-size:12px!important}}
