@@ -8,4 +8,4 @@ function bm(id){const b=id?S.brands.find(x=>x.id===id):{};ask(`<div class="form-
 <div class="acts">${id?`<button type="button" class="btn del" onclick="bdel(${id})">Delete</button><span class="sp"></span>`:''}<button type="button" class="btn ghost" onclick="shut()">Cancel</button><button class="btn">Save deal</button></div></form>`)}
 function bsave(e,id){e.preventDefault();const f=new FormData(e.target),d={name:f.get('name').trim(),status:f.get('status'),amount:Number(f.get('amount'))||0,email:f.get('email').trim()};
 if(id)Object.assign(S.brands.find(x=>x.id===id),d);else S.brands.push({id:uid(),...d});done('Deal saved')}
-function bdel(id){if(confirm('Delete this deal?')){S.brands=S.brands.filter(b=>b.id!==id);done('Deal deleted')}}
+function bdel(id){confirmUI('Delete deal?','This deal will be permanently removed from your workspace.','Delete deal',()=>{S.brands=S.brands.filter(b=>b.id!==id);done('Deal deleted')})}
