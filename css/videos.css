@@ -435,3 +435,13 @@
 .sheet:has(.video-form) .video-form .acts .ghost{margin-left:auto!important}
 .sheet:has(.video-form) .video-form .acts .btn:not(.ghost):not(.del){box-shadow:0 5px 14px #5965ff25!important}
 @media(max-width:520px){.sheet:has(.video-form){width:calc(100vw - 20px)!important;max-height:calc(100dvh - 24px)!important}.sheet:has(.video-form) .video-form{padding:0 16px 18px!important;gap:15px!important}.sheet:has(.video-form) .video-form .acts{margin:2px -16px -18px!important;padding:13px 16px 16px!important;gap:8px!important}.sheet:has(.video-form) .video-form .acts .btn{padding:0 13px!important;min-height:42px!important}}
+
+/* Final video-form footer: no white strip, no clipped actions, no forced page reload styling. */
+.sheet:has(.video-form) .video-form .acts{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex-wrap:wrap!important;gap:10px!important;min-height:72px!important;box-sizing:border-box!important;background:var(--pan)!important;border-top:1px solid var(--ln)!important;box-shadow:none!important}
+.sheet:has(.video-form) .video-form .acts .del{margin-right:auto!important}
+.sheet:has(.video-form) .video-form .acts .ghost{margin-left:0!important}
+.sheet:has(.video-form) .video-form .acts button[type=submit],.sheet:has(.video-form) .video-form .acts button:not(.ghost):not(.del){background:var(--accent,#4f46e5)!important;color:#fff!important;border:1px solid transparent!important}
+.sheet:has(.video-form) .video-form .acts button{flex:0 0 auto!important;min-width:96px!important}
+.sheet:has(.video-form) .video-form .acts .del{min-width:auto!important}
+.sheet:has(.video-form) .video-form .acts .sp{display:none!important}
+@media(max-width:420px){.sheet:has(.video-form) .video-form .acts{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}.sheet:has(.video-form) .video-form .acts .del{grid-column:1/-1!important;justify-self:start!important}.sheet:has(.video-form) .video-form .acts .ghost,.sheet:has(.video-form) .video-form .acts button[type=submit]{width:100%!important;min-width:0!important}}
