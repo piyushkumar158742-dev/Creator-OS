@@ -416,3 +416,22 @@
 /* Clear checkmarks for completed production stages. */
 .sheet:has(.video-detail-head) .stage-flow-row .stage-step.passed span{background:#16a34a!important;border-color:#16a34a!important;color:#fff!important;font-size:15px!important;font-weight:900!important}
 :root[data-theme="dark"] .sheet:has(.video-detail-head) .stage-flow-row .stage-step.passed span{background:#16a34a!important;border-color:#16a34a!important;color:#fff!important}
+
+/* Edit-video form polish: keep labels, controls and actions comfortably separated. */
+.sheet:has(.video-form){box-sizing:border-box!important;overflow:hidden!important;display:flex!important;flex-direction:column!important}
+.sheet:has(.video-form) .video-form{min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;padding:0 26px 24px!important;gap:18px!important;box-sizing:border-box!important}
+.sheet:has(.video-form) .video-form>label{width:100%!important;min-width:0!important;margin:0!important;gap:9px!important;line-height:1.35!important}
+.sheet:has(.video-form) .video-form>label .label-note{margin:0!important;line-height:1.4!important}
+.sheet:has(.video-form) .video-form input:not([type=file]):not([type=hidden]),.sheet:has(.video-form) .video-form textarea{display:block!important;width:100%!important;min-height:46px!important;padding:12px 15px!important;border-radius:13px!important;box-sizing:border-box!important}
+.sheet:has(.video-form) .video-form input[type=file]{display:block!important;width:100%!important;min-height:48px!important;padding:9px 11px!important;box-sizing:border-box!important}
+.sheet:has(.video-form) .video-form .form-pair{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:14px!important;margin:0!important}
+.sheet:has(.video-form) .video-form .form-pair>label{min-width:0!important;gap:8px!important}
+.sheet:has(.video-form) .pipeline-picker{margin:0!important;padding:16px!important;border-radius:16px!important}
+.sheet:has(.video-form) .pipeline-picker-head{margin-bottom:13px!important}
+.sheet:has(.video-form) .video-form .acts{position:relative!important;bottom:auto!important;flex:0 0 auto!important;display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:10px!important;margin:2px -26px -24px!important;padding:16px 26px 20px!important;border-top:1px solid var(--ln)!important;background:var(--pan)!important;box-shadow:0 -8px 20px #10182808!important}
+.sheet:has(.video-form) .video-form .acts .btn{min-height:44px!important;padding:0 18px!important;border-radius:12px!important;white-space:nowrap!important}
+.sheet:has(.video-form) .video-form .acts .del{margin-right:auto!important}
+.sheet:has(.video-form) .video-form .acts .sp{display:none!important}
+.sheet:has(.video-form) .video-form .acts .ghost{margin-left:auto!important}
+.sheet:has(.video-form) .video-form .acts .btn:not(.ghost):not(.del){box-shadow:0 5px 14px #5965ff25!important}
+@media(max-width:520px){.sheet:has(.video-form){width:calc(100vw - 20px)!important;max-height:calc(100dvh - 24px)!important}.sheet:has(.video-form) .video-form{padding:0 16px 18px!important;gap:15px!important}.sheet:has(.video-form) .video-form .acts{margin:2px -16px -18px!important;padding:13px 16px 16px!important;gap:8px!important}.sheet:has(.video-form) .video-form .acts .btn{padding:0 13px!important;min-height:42px!important}}
