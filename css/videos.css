@@ -445,3 +445,12 @@
 .sheet:has(.video-form) .video-form .acts .del{min-width:auto!important}
 .sheet:has(.video-form) .video-form .acts .sp{display:none!important}
 @media(max-width:420px){.sheet:has(.video-form) .video-form .acts{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}.sheet:has(.video-form) .video-form .acts .del{grid-column:1/-1!important;justify-self:start!important}.sheet:has(.video-form) .video-form .acts .ghost,.sheet:has(.video-form) .video-form .acts button[type=submit]{width:100%!important;min-width:0!important}}
+
+/* Keep the thumbnail preview hidden until the user chooses a file; prevent collapsed preview slivers. */
+.sheet:has(.video-form) #pv[hidden],
+.sheet:has(.video-form) .new-video-preview[hidden]{display:none!important}
+.sheet:has(.video-form) #pv:not([hidden]){display:block!important;width:100%!important;aspect-ratio:16/9!important;min-height:0!important;height:auto!important;max-height:220px!important;overflow:hidden!important;margin:0 0 2px!important;border:1px solid var(--ln)!important;border-radius:12px!important;background:var(--bg)!important}
+.sheet:has(.video-form) #pv .th,
+.sheet:has(.video-form) #pv .th-has-upload,
+.sheet:has(.video-form) #pv .gt{display:flex!important;width:100%!important;height:100%!important;min-height:0!important;aspect-ratio:unset!important;border-radius:11px!important;overflow:hidden!important}
+.sheet:has(.video-form) #pv .gt-uploaded-main{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important}
