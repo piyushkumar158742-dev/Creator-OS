@@ -12,6 +12,7 @@ function firebaseAvailable(){return !!(window.firebase&&firebase.initializeApp&&
 function configure(){
  const c=cfg();
  if(!c.firebaseApiKey||!c.firebaseProjectId||!c.firebaseAppId)return {ok:false,reason:'Add your Firebase web config in Settings first.'};
+ if(ready&&auth&&db)return {ok:true};
  if(!firebaseAvailable())return {ok:false,reason:'Firebase SDK did not load. Check your internet connection and reload.'};
  try{
   let app=firebase.apps.find(a=>a.name==='vyro-app');
