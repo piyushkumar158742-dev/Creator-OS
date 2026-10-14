@@ -4,7 +4,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/global.css?v=25">
-<link rel="stylesheet" href="css/components.css?v=25">
+<link rel="stylesheet" href="css/components.css?v=26">
 <link rel="stylesheet" href="css/dashboard.css?v=25">
 <link rel="stylesheet" href="css/videos.css?v=37">
 <link rel="stylesheet" href="css/brands.css?v=25">
@@ -19,7 +19,7 @@
 <button data-nav="brands" onclick="go('brands')"><b>◈</b>Deals</button>
 <button data-nav="calendar" onclick="go('calendar')"><b>▦</b>Schedule</button>
 <button data-nav="settings" onclick="go('settings')"><b>⚙</b>Settings</button></nav>
-<div class="wrap"><header class="top"><h1 id="title">Desk</h1><time id="clock"></time><button id="theme-toggle" class="btn ghost theme-toggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" title="Switch theme">◐</button><button class="btn" onclick="vm()">+ New video</button></header>
+<div class="wrap"><header class="top"><h1 id="title">Desk</h1><time id="clock"></time><button class="btn ghost donate-trigger" type="button" onclick="openDonate()" aria-label="Donate to support Creator OS">♡ <span>Donate</span></button><button id="theme-toggle" class="btn ghost theme-toggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" title="Switch theme">◐</button><button class="btn" onclick="vm()">+ New video</button></header>
 <main id="main"></main></div></div>
 <div id="modal" class="modal" hidden onclick="if(event.target===this)shut()"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
 <div id="toast" role="status"></div><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
@@ -27,7 +27,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js" defer></script>
 <script src="https://accounts.google.com/gsi/client" defer></script>
 <script src="js/firebase.js?v=27" defer></script>
-<script src="js/app.js?v=27" defer></script>
+<script src="js/app.js?v=28" defer></script>
 <script src="js/dashboard.js?v=26" defer></script>
 <script src="js/videos.js?v=31" defer></script>
 <script src="js/tasks.js?v=25" defer></script>
