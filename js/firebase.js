@@ -6,7 +6,8 @@ const CFG='vyro_backend_config_v1';
 let auth=null,db=null,user=null,saveTimer=null,googleTokenClient=null,ready=false;
 const $=s=>document.querySelector(s);
 const say=m=>{if(typeof toast==='function')toast(m);else alert(m)};
-const cfg=()=>{try{return JSON.parse(localStorage.getItem(CFG)||'{}')}catch(e){return {}}};
+const DEFAULT_CFG={firebaseApiKey:'AIzaSyCoiNZ0WtsxrC-rHX-xGEkQkWIurnj5J4k',firebaseAuthDomain:'vyro-cd2fd.firebaseapp.com',firebaseProjectId:'vyro-cd2fd',firebaseAppId:'1:574510502743:web:947b8e4e768de1025ea412'};
+const cfg=()=>{try{return {...DEFAULT_CFG,...JSON.parse(localStorage.getItem(CFG)||'{}')}}catch(e){return {...DEFAULT_CFG}}};
 function saveCfg(c){localStorage.setItem(CFG,JSON.stringify(c))}
 function firebaseAvailable(){return !!(window.firebase&&firebase.initializeApp&&firebase.auth&&firebase.firestore)}
 function configure(){
