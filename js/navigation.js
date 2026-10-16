@@ -3,7 +3,7 @@ const VYRO_ADMIN_EMAIL='piyushkumar158742@gmail.com';
 function isVyroAdmin(){return String(window.VyroBackend?.status?.().user?.email||'').toLowerCase()===VYRO_ADMIN_EMAIL;}
 function draw(){
  const auth=window.VyroBackend?.status?.()||{};
- if(S.view==='admin'&&auth.user&&!isVyroAdmin()){S.view='home';save();$('#main').innerHTML='<div class="panel"><div class="empty">This page is unavailable.</div></div>';$('#title').textContent='Desk';return}
+ if(S.view==='admin'&&auth.user&&!isVyroAdmin()&&!ADMIN_ENTRY){S.view='home';save();$('#main').innerHTML='<div class="panel"><div class="empty">This page is unavailable.</div></div>';$('#title').textContent='Desk';return}
  document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav===S.view));$('#title').textContent=S.view==='admin'?'Admin Panel':TT[S.view]||'Desk';
  try{$('#main').innerHTML=V[S.view]?V[S.view]():'<div class="panel"><div class="empty">Page not found.</div></div>'}catch(e){console.error(e);$('#main').innerHTML='<div class="panel"><div class="empty">Something broke while drawing this page. Open Settings and reset the workspace, then reload.</div></div>'}
 }
