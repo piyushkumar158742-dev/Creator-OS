@@ -15,3 +15,15 @@
 
 /* Simplified user settings and hidden owner panel */
 .user-settings{max-width:620px;display:grid;gap:14px}.admin-settings{max-width:760px}.admin-denied{max-width:560px}.admin-denied .pad{display:grid;gap:12px}.admin-denied h3{margin:0}.admin-denied p{color:var(--muted);margin:0}
+
+/* Cleaner, user-first Settings */
+.user-settings{max-width:620px;gap:12px}
+.user-settings .panel>header h3{font-size:15px}
+.simple-email-login,.simple-data{padding:0}
+.simple-email-login summary,.simple-data>summary{cursor:pointer;list-style:none;font-size:13px;font-weight:650;color:var(--muted);padding:4px 0}
+.simple-email-login summary::-webkit-details-marker,.simple-data>summary::-webkit-details-marker{display:none}
+.simple-email-login[open] summary,.simple-data[open]>summary{margin-bottom:12px;color:var(--ink)}
+.simple-email-login .backend-grid{margin-top:12px}
+.simple-data{padding:14px 16px}
+.simple-data .pad{padding:0}
+@media(max-width:520px){.user-settings{gap:10px}.user-settings .panel>header{padding:14px 16px}.user-settings .pad{padding:14px 16px}}
