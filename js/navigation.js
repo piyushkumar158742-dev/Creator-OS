@@ -9,4 +9,5 @@ function draw(){
 function go(v){if(v==='admin'&&window.VyroBackend?.status?.().user&&!isVyroAdmin()){toast('Admin access only.');return}if(!TT[v]&&v!=='admin')return;S.view=v;save();draw();scrollTo(0,0)}
 function tick(){$('#clock').textContent=new Date().toLocaleString('en-IN',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')shut()});
+if(new URLSearchParams(window.location.search).get('admin')==='1')S.view='admin';
 tick();setInterval(tick,30000);draw();
