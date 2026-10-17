@@ -23,7 +23,7 @@ function configure(){
    user=u||null;
    window.VyroBackend.user=user;
    if(user){
-    try{const ref=db.collection('users').doc(user.uid).collection('workspace').doc('main');const snap=await ref.get();if(snap.exists&&window.S&&typeof save==='function'){const cloud=snap.data().state;if(cloud&&typeof cloud==='object'){const requestedView=new URLSearchParams(window.location.search).get('admin')==='1'?'admin':null;S={...seed(),...cloud,settings:{...seed().settings,...cloud.settings}};if(requestedView)S.view=requestedView;if(typeof load==='function'&&Array.isArray(S.settings.pipelineStages))ST=S.settings.pipelineStages.slice();save();if(typeof draw==='function')draw()}}else if(window.S)queueSync(window.S);say('Signed in. Workspace sync is ready.')}catch(e){console.error(e);say('Signed in, but workspace sync failed. Check Firestore setup and rules.')}
+    try{const ref=db.collection('users').doc(user.uid).collection('workspace').doc('main');const snap=await ref.get();if(snap.exists&&typeof S!=='undefined'&&typeof save==='function'){const cloud=snap.data().state;if(cloud&&typeof cloud==='object'){const requestedView=new URLSearchParams(window.location.search).get('admin')==='1'?'admin':null;S={...seed(),...cloud,settings:{...seed().settings,...cloud.settings}};if(requestedView)S.view=requestedView;if(typeof load==='function'&&Array.isArray(S.settings.pipelineStages))ST=S.settings.pipelineStages.slice();save();if(typeof draw==='function')draw()}}else if(typeof S!=='undefined')queueSync(S);say('Signed in. Workspace sync is ready.')}catch(e){console.error(e);say('Signed in, but workspace sync failed. Check Firestore setup and rules.')}
    }
    document.dispatchEvent(new CustomEvent('vyro-auth-change',{detail:{user}}));
   });
@@ -92,7 +92,7 @@ function connectYouTube(){
  googleTokenClient.requestAccessToken({prompt:'consent'});
 }
 function disconnectYouTube(){
- if(!window.S?.settings){say('Workspace is not ready yet. Refresh and try again.');return}
+ if(typeof S==='undefined'||!S?.settings){say('Workspace is still loading. Wait a moment and try again.');return}
  try{
   const previous=S.settings.youtubeChannel;
   if(!previous){say('No YouTube channel is connected.');return}
