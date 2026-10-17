@@ -1,0 +1,17 @@
+# Local environment and private configuration
+.env
+.env.*
+!.env.example
+
+# Service-account credentials and private keys
+*service-account*.json
+serviceAccountKey.json
+firebase-adminsdk-*.json
+*.pem
+*.key
+*.p12
+
+# Local developer overrides / generated data
+.vscode/
+.DS_Store
+*.log
