@@ -91,7 +91,26 @@ function connectYouTube(){
  }});
  googleTokenClient.requestAccessToken({prompt:'consent'});
 }
-function disconnectYouTube(){if(window.S?.settings){delete S.settings.youtubeChannel;save();draw();say('YouTube channel disconnected from this workspace.')} }
+function disconnectYouTube(){
+ if(!window.S?.settings){say('Workspace is not ready yet. Refresh and try again.');return}
+ try{
+  const previous=S.settings.youtubeChannel;
+  if(!previous){say('No YouTube channel is connected.');return}
+  delete S.settings.youtubeChannel;
+  // Remove only videos imported from YouTube; keep videos created manually in Vyro.
+  S.videos=(S.videos||[]).filter(v=>!v.youtubeVideoId);
+  if(typeof save==='function'&&!save()){
+   S.settings.youtubeChannel=previous;
+   say('Could not disconnect because the workspace could not be saved. Export a backup or free browser storage, then try again.');
+   return;
+  }
+  if(typeof draw==='function')draw();
+  say('YouTube channel disconnected from Vyro. Your manually created videos and Google workspace sign-in are unchanged.');
+ }catch(e){
+  console.error('YouTube disconnect failed:',e);
+  say('Could not disconnect the channel: '+(e.message||'unexpected error'));
+ }
+}
 function saveSettingsFromForm(){
  const c=cfg();
  c.firebaseApiKey=$('#fb-api-key')?.value.trim()||'';c.firebaseAuthDomain=$('#fb-auth-domain')?.value.trim()||'';c.firebaseProjectId=$('#fb-project-id')?.value.trim()||'';c.firebaseAppId=$('#fb-app-id')?.value.trim()||'';c.youtubeClientId=$('#yt-client-id')?.value.trim()||'';c.youtubeApiKey=$('#yt-api-key')?.value.trim()||'';
