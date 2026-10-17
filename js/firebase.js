@@ -23,7 +23,7 @@ function configure(){
    user=u||null;
    window.VyroBackend.user=user;
    if(user){
-    try{const ref=db.collection('users').doc(user.uid).collection('workspace').doc('main');const snap=await ref.get();if(snap.exists&&typeof S!=='undefined'&&typeof save==='function'){const cloud=snap.data().state;if(cloud&&typeof cloud==='object'){const requestedView=new URLSearchParams(window.location.search).get('admin')==='1'?'admin':null;S={...seed(),...cloud,settings:{...seed().settings,...cloud.settings}};if(requestedView)S.view=requestedView;if(typeof load==='function'&&Array.isArray(S.settings.pipelineStages))ST=S.settings.pipelineStages.slice();save();if(typeof draw==='function')draw()}}else if(typeof S!=='undefined')queueSync(S);say('Signed in. Workspace sync is ready.')}catch(e){console.error(e);say('Signed in, but workspace sync failed. Check Firestore setup and rules.')}
+    try{const ref=db.collection('users').doc(user.uid).collection('workspace').doc('main');const snap=await ref.get();if(snap.exists&&typeof S!=='undefined'&&typeof save==='function'){const cloud=snap.data().state;if(cloud&&typeof cloud==='object'){const requestedView=new URLSearchParams(window.location.search).get('admin')==='1'?'admin':null;S=removeDemoData({...seed(),...cloud,settings:{...seed().settings,...cloud.settings}});if(requestedView)S.view=requestedView;if(typeof load==='function'&&Array.isArray(S.settings.pipelineStages))ST=S.settings.pipelineStages.slice();save();if(typeof draw==='function')draw()}}else if(typeof S!=='undefined')queueSync(S);say('Signed in. Workspace sync is ready.')}catch(e){console.error(e);say('Signed in, but workspace sync failed. Check Firestore setup and rules.')}
    }
    document.dispatchEvent(new CustomEvent('vyro-auth-change',{detail:{user}}));
   });
@@ -66,7 +66,7 @@ async function syncChannelVideos(channel,token,key){
   const sn=item.snippet||{},id=item.contentDetails?.videoId||sn.resourceId?.videoId;
   if(!id)return null;
   const stat=stats[id]||{};
-  return {id:Date.now()*1000+Math.floor(Math.random()*100000),youtubeVideoId:id,title:sn.title||'Untitled YouTube video',status:published,views:String(stat.viewCount||'0'),notes:'Imported from YouTube · '+(sn.publishedAt?new Date(sn.publishedAt).toLocaleDateString():'Publication date unavailable'),thumb:sn.thumbnails?.maxres?.url||sn.thumbnails?.high?.url||sn.thumbnails?.medium?.url||sn.thumbnails?.default?.url||'',youtubeUrl:'https://www.youtube.com/watch?v='+id,publishedAt:sn.publishedAt||''};
+  return {id:Date.now()*1000+Math.floor(Math.random()*100000),youtubeVideoId:id,title:String(sn.title||'Untitled YouTube video').slice(0,100),status:published,views:String(stat.viewCount||'0'),notes:'Imported from YouTube · '+(sn.publishedAt?new Date(sn.publishedAt).toLocaleDateString():'Publication date unavailable'),thumb:sn.thumbnails?.maxres?.url||sn.thumbnails?.high?.url||sn.thumbnails?.medium?.url||sn.thumbnails?.default?.url||'',youtubeUrl:'https://www.youtube.com/watch?v='+id,publishedAt:sn.publishedAt||''};
  }).filter(Boolean);
 }
 function connectYouTube(){
