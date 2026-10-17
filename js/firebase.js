@@ -31,9 +31,25 @@ function configure(){
  }catch(e){console.error(e);return {ok:false,reason:e.message||'Firebase setup failed.'}}
 }
 function queueSync(state){if(!user||!db||!state)return;clearTimeout(saveTimer);saveTimer=setTimeout(async()=>{try{await db.collection('users').doc(user.uid).collection('workspace').doc('main').set({state:JSON.parse(JSON.stringify(state)),updatedAt:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){console.error('Vyro cloud sync:',e);say('Cloud save failed. Check Firestore rules; this device still has a local copy.')}},700)}
-function hasLegalConsent(){const p=$('#vyro-consent-privacy'),t=$('#vyro-consent-terms');if(!p||!t){say('Please read and accept the Privacy Policy and Terms of Service before signing in.');return false}if(!p.checked||!t.checked){say('Please check both boxes to agree to the Privacy Policy and Terms of Service.');return false}try{localStorage.setItem('vyro_legal_consent_v1',JSON.stringify({privacy:true,terms:true,acceptedAt:new Date().toISOString(),privacyVersion:'2026-10-17',termsVersion:'2026-10-17'}))}catch(e){}return true}
-async function signGoogle(){if(!hasLegalConsent())return;const x=configure();if(!x.ok){say(x.reason);return}try{await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())}catch(e){console.error(e);say(authError(e))}}
-async function signEmail(mode){if(!hasLegalConsent())return;const x=configure();if(!x.ok){say(x.reason);return}const email=($('#backend-email')?.value||'').trim(),pass=$('#backend-password')?.value||'';if(!email||!pass){say('Enter your email and password.');return}try{if(mode==='create')await auth.createUserWithEmailAndPassword(email,pass);else await auth.signInWithEmailAndPassword(email,pass)}catch(e){say(authError(e))}}
+const LEGAL_CONSENT_KEY='vyro_legal_consent_v2';
+const PRIVACY_VERSION='2026-10-17';
+const TERMS_VERSION='2026-10-17';
+function legalConsentCurrent(){try{const v=JSON.parse(localStorage.getItem(LEGAL_CONSENT_KEY)||'null');return !!(v&&v.privacyVersion===PRIVACY_VERSION&&v.termsVersion===TERMS_VERSION&&v.privacy===true&&v.terms===true)}catch(e){return false}}
+function recordLegalConsent(){try{localStorage.setItem(LEGAL_CONSENT_KEY,JSON.stringify({privacy:true,terms:true,acceptedAt:new Date().toISOString(),privacyVersion:PRIVACY_VERSION,termsVersion:TERMS_VERSION}))}catch(e){}}
+function requestLegalConsent(onAccept){
+ if(legalConsentCurrent()){onAccept();return}
+ document.querySelector('#vyro-legal-consent-modal')?.remove();
+ const modal=document.createElement('div');modal.id='vyro-legal-consent-modal';modal.className='vyro-legal-modal';modal.innerHTML=`<section class="vyro-legal-dialog" role="dialog" aria-modal="true" aria-labelledby="vyro-legal-title"><button class="vyro-legal-close" type="button" aria-label="Close">×</button><div class="vyro-legal-eyebrow">Before you continue</div><h2 id="vyro-legal-title">Review Vyro’s policies</h2><p>Please read the policies before connecting your account. Both agreements are required to continue.</p><label class="vyro-legal-check"><input type="checkbox" id="vyro-modal-privacy"><span>I have read and agree to the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label><label class="vyro-legal-check"><input type="checkbox" id="vyro-modal-terms"><span>I have read and agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>.</span></label><p class="vyro-legal-error" role="alert" hidden>Please select both checkboxes to continue.</p><div class="vyro-legal-actions"><button class="btn ghost vyro-legal-cancel" type="button">Cancel</button><button class="btn vyro-legal-continue" type="button">Agree & continue</button></div></section>`;
+ document.body.appendChild(modal);
+ const close=()=>modal.remove();
+ modal.querySelector('.vyro-legal-close').addEventListener('click',close);
+ modal.querySelector('.vyro-legal-cancel').addEventListener('click',close);
+ modal.addEventListener('click',e=>{if(e.target===modal)close()});
+ modal.querySelector('.vyro-legal-continue').addEventListener('click',()=>{if(!modal.querySelector('#vyro-modal-privacy').checked||!modal.querySelector('#vyro-modal-terms').checked){modal.querySelector('.vyro-legal-error').hidden=false;return}recordLegalConsent();close();onAccept()});
+ modal.querySelector('#vyro-modal-privacy').focus();
+}
+async function signGoogle(){requestLegalConsent(async()=>{const x=configure();if(!x.ok){say(x.reason);return}try{await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())}catch(e){console.error(e);say(authError(e))}})}
+async function signEmail(mode){requestLegalConsent(async()=>{const x=configure();if(!x.ok){say(x.reason);return}const email=($('#backend-email')?.value||'').trim(),pass=$('#backend-password')?.value||'';if(!email||!pass){say('Enter your email and password.');return}try{if(mode==='create')await auth.createUserWithEmailAndPassword(email,pass);else await auth.signInWithEmailAndPassword(email,pass)}catch(e){say(authError(e))}})}
 function authError(e){return ({'auth/unauthorized-domain':'Add the Creator OS GitHub Pages URL to Firebase Authentication → Settings → Authorized domains.','auth/operation-not-allowed':'Enable this sign-in method in Firebase Authentication → Sign-in method.','auth/popup-blocked':'Allow pop-ups for Creator OS and try again.','auth/invalid-credential':'Email/password is incorrect, or this account does not exist.'})[e.code]||e.message||'Sign-in failed.'}
 async function signOut(){if(auth)await auth.signOut();say('Signed out of Creator OS cloud sync.')}
 async function youtubeRequest(path,token,key){
