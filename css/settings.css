@@ -27,3 +27,6 @@
 .simple-data{padding:14px 16px}
 .simple-data .pad{padding:0}
 @media(max-width:520px){.user-settings{gap:10px}.user-settings .panel>header{padding:14px 16px}.user-settings .pad{padding:14px 16px}}
+
+/* Legal document links are available in Settings for signed-in and signed-out users. */
+.legal-documents-panel .legal-document-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.legal-documents-panel .legal-document-links .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;min-height:40px}.legal-documents-panel .legal-document-links .btn span{font-size:16px}@media(max-width:480px){.legal-documents-panel .legal-document-links{display:grid;grid-template-columns:1fr}.legal-documents-panel .legal-document-links .btn{width:100%}}
