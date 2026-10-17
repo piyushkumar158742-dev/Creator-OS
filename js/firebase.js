@@ -35,17 +35,59 @@ async function signGoogle(){const x=configure();if(!x.ok){say(x.reason);return}t
 async function signEmail(mode){const x=configure();if(!x.ok){say(x.reason);return}const email=($('#backend-email')?.value||'').trim(),pass=$('#backend-password')?.value||'';if(!email||!pass){say('Enter your email and password.');return}try{if(mode==='create')await auth.createUserWithEmailAndPassword(email,pass);else await auth.signInWithEmailAndPassword(email,pass)}catch(e){say(authError(e))}}
 function authError(e){return ({'auth/unauthorized-domain':'Add the Creator OS GitHub Pages URL to Firebase Authentication → Settings → Authorized domains.','auth/operation-not-allowed':'Enable this sign-in method in Firebase Authentication → Sign-in method.','auth/popup-blocked':'Allow pop-ups for Creator OS and try again.','auth/invalid-credential':'Email/password is incorrect, or this account does not exist.'})[e.code]||e.message||'Sign-in failed.'}
 async function signOut(){if(auth)await auth.signOut();say('Signed out of Creator OS cloud sync.')}
+async function youtubeRequest(path,token,key){
+ const res=await fetch('https://www.googleapis.com/youtube/v3/'+path+(path.includes('?')?'&':'?')+'key='+encodeURIComponent(key),{headers:{Authorization:'Bearer '+token}});
+ let data={};try{data=await res.json()}catch(e){}
+ if(!res.ok)throw new Error(data.error?.message||'YouTube API request failed ('+res.status+').');
+ return data;
+}
+async function syncChannelVideos(channel,token,key){
+ const uploads=channel.contentDetails?.relatedPlaylists?.uploads;
+ if(!uploads)throw new Error('YouTube did not return an uploads playlist for this channel.');
+ const items=[];let pageToken='';
+ // Import the 200 most recent uploads to keep first sync fast and within API quotas.
+ for(let page=0;page<4;page++){
+  const q=new URLSearchParams({part:'snippet,contentDetails',playlistId:uploads,maxResults:'50'});
+  if(pageToken)q.set('pageToken',pageToken);
+  const data=await youtubeRequest('playlistItems?'+q.toString(),token,key);
+  items.push(...(data.items||[]));pageToken=data.nextPageToken||'';
+  if(!pageToken)break;
+ }
+ const ids=items.map(x=>x.contentDetails?.videoId||x.snippet?.resourceId?.videoId).filter(Boolean);
+ const stats={};
+ for(let i=0;i<ids.length;i+=50){
+  const q=new URLSearchParams({part:'statistics,snippet',id:ids.slice(i,i+50).join(',')});
+  const data=await youtubeRequest('videos?'+q.toString(),token,key);
+  (data.items||[]).forEach(v=>{stats[v.id]=v.statistics||{}});
+ }
+ const stages=Array.isArray(ST)&&ST.length?ST:['Idea','Script','Recording','Editing','Thumbnail','Published'];
+ const published=stages.includes('Published')?'Published':stages[stages.length-1];
+ return items.map(item=>{
+  const sn=item.snippet||{},id=item.contentDetails?.videoId||sn.resourceId?.videoId;
+  if(!id)return null;
+  const stat=stats[id]||{};
+  return {id:Date.now()*1000+Math.floor(Math.random()*100000),youtubeVideoId:id,title:sn.title||'Untitled YouTube video',status:published,views:String(stat.viewCount||'0'),notes:'Imported from YouTube · '+(sn.publishedAt?new Date(sn.publishedAt).toLocaleDateString():'Publication date unavailable'),thumb:sn.thumbnails?.maxres?.url||sn.thumbnails?.high?.url||sn.thumbnails?.medium?.url||sn.thumbnails?.default?.url||'',youtubeUrl:'https://www.youtube.com/watch?v='+id,publishedAt:sn.publishedAt||''};
+ }).filter(Boolean);
+}
 function connectYouTube(){
  const c=cfg();if(!c.youtubeClientId||!c.youtubeApiKey){say('Add your YouTube OAuth Client ID and API key in Settings first.');return}
  if(!window.google?.accounts?.oauth2){say('Google authorization did not load. Check your connection and reload.');return}
  googleTokenClient=google.accounts.oauth2.initTokenClient({client_id:c.youtubeClientId,scope:'https://www.googleapis.com/auth/youtube.readonly',callback:async response=>{
   if(response.error){say('YouTube authorization was not completed.');return}
   try{
-   const res=await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,contentDetails&mine=true&key='+encodeURIComponent(c.youtubeApiKey),{headers:{Authorization:'Bearer '+response.access_token}});
-   const data=await res.json();if(!res.ok||!data.items?.length)throw new Error(data.error?.message||'No YouTube channel was returned for this Google account.');
-   const ch=data.items[0];S.settings.youtubeChannel={id:ch.id,title:ch.snippet.title,thumbnail:ch.snippet.thumbnails?.default?.url||'',subscribers:ch.statistics.hiddenSubscriberCount?null:Number(ch.statistics.subscriberCount||0),views:Number(ch.statistics.viewCount||0),videoCount:Number(ch.statistics.videoCount||0),connectedAt:new Date().toISOString()};
-   if(typeof save==='function')save();if(typeof draw==='function')draw();say('YouTube channel connected. Stats are now available on your dashboard.');
-  }catch(e){console.error(e);say(e.message||'Could not fetch YouTube channel data. Check API access and quota.')}
+   say('Connecting YouTube and syncing your latest videos…');
+   const data=await youtubeRequest('channels?part=snippet,statistics,contentDetails&mine=true',response.access_token,c.youtubeApiKey);
+   if(!data.items?.length)throw new Error('No YouTube channel was returned for this Google account.');
+   const ch=data.items[0];
+   const imported=await syncChannelVideos(ch,response.access_token,c.youtubeApiKey);
+   // Replace starter/demo workspace content with the connected channel's real videos.
+   S.settings.youtubeChannel={id:ch.id,title:ch.snippet.title,thumbnail:ch.snippet.thumbnails?.default?.url||'',subscribers:ch.statistics.hiddenSubscriberCount?null:Number(ch.statistics.subscriberCount||0),views:Number(ch.statistics.viewCount||0),videoCount:Number(ch.statistics.videoCount||0),connectedAt:new Date().toISOString(),lastSyncedAt:new Date().toISOString(),syncedVideoCount:imported.length};
+   S.videos=imported;
+   S.tasks=[];S.brands=[];S.events=[];
+   if(typeof save==='function'&&!save())throw new Error('Your browser could not save the synced workspace. Free up storage and try again.');
+   if(typeof draw==='function')draw();
+   say('YouTube connected. Imported '+imported.length+' videos into Pipeline; cleared demo tasks, deals, and calendar events.');
+  }catch(e){console.error(e);say(e.message||'Could not sync YouTube data. Check API access, key restrictions, and quota.')}
  }});
  googleTokenClient.requestAccessToken({prompt:'consent'});
 }
